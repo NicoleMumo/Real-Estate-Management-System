@@ -12,8 +12,12 @@ section{
     display: grid;
     grid-template-columns: 1fr 2fr;
 }
+#headline{
+    text-align: center;
+}
 #headline h1{
     color: #585A3C;
+    font-size: 35px;
 }
 #headline h3{
     color: white;
