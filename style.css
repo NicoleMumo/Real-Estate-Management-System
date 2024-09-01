@@ -5,9 +5,31 @@ header{
 }
 nav a{
  margin-right: 20px;
+ color:white;
+ text-decoration: none;
 }
 section{
     display: grid;
     grid-template-columns: 1fr 2fr;
-    margin:110px;
+}
+#headline h1{
+    color: #585A3C;
+}
+#headline h3{
+    color: white;
+}
+.btn{
+    background-color: #A58754;
+    color: white;
+    width: 150px;
+    height:50px;
+    border-radius: 10px;
+    border: #A58754;
+}
+#first{
+    margin-left:120px;
+
+}
+body{
+    background-color: #0B2A3B;
 }
