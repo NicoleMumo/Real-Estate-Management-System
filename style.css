@@ -9,11 +9,19 @@ nav a{
  text-decoration: none;
 }
 section{
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:0px 0px 0px 100px;
 }
 #headline{
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.headlinesection{
+   text-wrap: nowrap;
 }
 #headline h1{
     color: #585A3C;
