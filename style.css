@@ -3,6 +3,9 @@ header{
     justify-content: space-between;
     align-items: center;
 }
+.logo{
+    margin-left: 2cm;
+}
 nav a{
  margin-right: 20px;
  color:white;
@@ -41,7 +44,13 @@ section{
     transition: all 0.5s;
     cursor: pointer;
 }
+.btn:hover{
+    background-color: aliceblue;
+    color: #A58754;
+
+}
 .btn span{
+    font-size: larger;
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -49,11 +58,19 @@ section{
 }
 .btn span::after{
     content: '\00bb';
+    font-size: larger;
     position:absolute;
     opacity: 0;
     top: 0;
     right: 20px;
     transition: 0.5s;
+}
+.btn:hover span{
+    padding-right: 25px;
+}
+.btn:hover span::after{
+    opacity: 1;
+    right: 0;
 }
 
 #first{
