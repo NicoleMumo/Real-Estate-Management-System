@@ -79,13 +79,19 @@ section{
 body{
     background-color: #0B2A3B;
 }
+#about{
+    
+}
 #inabout{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap:10px;
 }
 #aboutus{
     color: #0B2A3B;
     background-color:blanchedalmond;
     border-radius: 20px;
     padding: 30px;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }
