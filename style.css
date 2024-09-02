@@ -121,3 +121,7 @@ body{
 #pool:hover .middle{
     opacity: 1;
 }
+.text{
+    color:white ;
+    font-size:25px ;
+}
