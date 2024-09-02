@@ -15,10 +15,10 @@ section{
     padding:0px 0px 0px 100px;
 }
 #headline{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 .headlinesection{
    text-wrap: nowrap;
@@ -31,15 +31,32 @@ section{
     color: white;
 }
 .btn{
+    display: inline-block;
     background-color: #A58754;
     color: white;
     width: 150px;
     height:50px;
     border-radius: 10px;
     border: #A58754;
+    transition: all 0.5s;
+    cursor: pointer;
 }
+.btn span{
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.btn span::after{
+    content: '\00bb';
+    position:absolute;
+    opacity: 0;
+    top: 0;
+    right: 20px;
+    transition: 0.5s;
+}
+
 #first{
-    margin-left:120px;
 
 }
 body{
