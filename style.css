@@ -81,13 +81,16 @@ body{
 }
 #about{
     margin-top: 5cm;
+}
+#amenities{
+    margin-top: 5cm;
     
 }
-#about h3{
+#amenities h3{
     color: #A58754;
     font-size: 30px;
 }
-#inabout{
+#inamenities{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap:20px;
