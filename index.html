@@ -36,7 +36,7 @@
         <h3 style="text-align: center;">ABOUT US</h3>
         <div id="inabout">
             <div id="aboutus">
-                <h3 style="text-align: center;">ABOUT US</h3>
+                <h3 style="text-align: center;">ABOUT</h3>
                 <p>Rosewood park estate is a gated community offering<br>state of the art houses and amenities. It is a vast and<br>serene area at the centre of Kilimani. It comprises of<br>all sorts of houses which include one to four bedroom apartments. It also comprises of studios and gives one<br>a vast number alternatives to choose from based on his<br>or her specifications </p>
             </div>
             <div id="aboutphoto">
@@ -98,7 +98,57 @@
         </div>
     </div>
     <footer>
-        
+        <div class="contact-us">
+            <div class="contact-info">
+                <h1>Contact Us</h1>
+                <p>Please reach out to us with any questions. We look forward to hearing from you!</p>
+                <div class="info">
+                    <div>
+                        <strong>Address:</strong> <br>
+                        Rosewood Avenue<br>
+                        Kilimani, Nairobi
+                    </div>
+                    <div>
+                        <strong>Phone:</strong> <br>
+                        +254 712-345-678
+                    </div>
+                    <div>
+                        <strong>Email:</strong> <br>
+                        rosewoodpark@gmail.com
+                    </div>
+                    <div class="social-media">
+                        <a href="#">Facebook</a> |
+                        <a href="#">Twitter</a> |
+                        <a href="#">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="vases-image">
+                <img src="exterior.jpg" alt="Decorative vases">
+            </div>
+        </div>
+    
+        <div class="get-in-touch">
+            <h2>Get In Touch</h2>
+            <p>If you have any questions, please fill out the form below. We'll get back to you as soon as possible.</p>
+            <form action="submit_form.php" method="post">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <select name="inquiry_type" required>
+                        <option value="" disabled selected>-- Choose a Subject --</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="support">Support</option>
+                        <option value="sales">Sales</option>
+                    </select>
+                    <input type="text" name="budget" placeholder="Budget">
+                </div>
+                <textarea name="message" placeholder="Message" required></textarea>
+                <button type="submit">Send Request</button>
+            </form>
+        </div>
     </footer>
 </body>
 </html>
