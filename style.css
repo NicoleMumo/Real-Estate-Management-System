@@ -181,6 +181,7 @@ body{
     padding: 50px;
     background-color: #f4f4f4;
     align-items: center;
+    margin-top: 2cm;
 }
 
 .contact-info {
@@ -211,12 +212,12 @@ body{
     color: #555;
 }
 
-.vases-image {
+.last-image {
     flex: 1;
     text-align: right;
 }
 
-.vases-image img {
+.last-image img {
     max-width: 100%;
     height: auto;
     border-radius: 10px;

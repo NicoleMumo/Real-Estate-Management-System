@@ -123,8 +123,8 @@
                     </div>
                 </div>
             </div>
-            <div class="vases-image">
-                <img src="exterior.jpg" alt="Decorative vases">
+            <div class="last-image">
+                <img src="exterior.jpg" alt="last-image">
             </div>
         </div>
     
@@ -138,15 +138,15 @@
                 </div>
                 <div class="form-group">
                     <select name="inquiry_type" required>
-                        <option value="" disabled selected>-- Choose a Subject --</option>
+                        <option value="" disabled selected>--Question category--</option>
                         <option value="general">General Inquiry</option>
                         <option value="support">Support</option>
-                        <option value="sales">Sales</option>
+                        <option value="sales">Booking</option>
                     </select>
-                    <input type="text" name="budget" placeholder="Budget">
+                    <input type="number" name="phonenumber" placeholder="phonenumber">
                 </div>
                 <textarea name="message" placeholder="Message" required></textarea>
-                <button type="submit">Send Request</button>
+                <button class="btn" type="submit">Send Request</button>
             </form>
         </div>
     </footer>
