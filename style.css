@@ -105,7 +105,7 @@ section{
     height: 400px;
     border-radius: 30px;
     padding: 20px; 
-    background-image: url('exterior.jpg');
+    background-image: url('landingpageimages/exterior.jpg');
     background-size:cover;
     animation-name: changeImage;
     animation-delay: 4s;
@@ -114,11 +114,11 @@ section{
     animation-iteration-count:infinite;
 }
 @keyframes changeImage{
-    0% { background-image: url('exterior.jpg');}
-    25% { background-image: url('Kitchen.jpg');}
-    50% {background-image: url('parkmerced.jpeg');}
-    75% {background-image: url('surveillance.jpg');}
-    100% {background-image: url('pool.jpg');}
+    0% { background-image: url('landingpageimages/exterior.jpg');}
+    25% { background-image: url('landingpageimages/Kitchen.jpg');}
+    50% {background-image: url('landingpageimages/parkmerced.jpeg');}
+    75% {background-image: url('landingpageimages/surveillance.jpg');}
+    100% {background-image: url('landingpageimages/pool.jpg');}
 }
 
 #first{
