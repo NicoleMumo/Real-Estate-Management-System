@@ -1,3 +1,5 @@
+<?php
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,15 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Real Estate Management</title>
+    <link rel="stylesheet" href="style1.css">
+    <script src="script.js" defer></script>
 </head>
-<link rel="stylesheet" href="style1.css">
 <body>
     <div class="logo">
         <h3 class="animated-logo">
             <span>Rosewood</span> <span>Park</span>
         </h3>
     <h1>Register New Client</h1>
-    <form action="/register" method="POST">
+    <form id="registrationForm">
         <!-- Personal Information -->
         <fieldset>
             <legend>Personal Information</legend>
