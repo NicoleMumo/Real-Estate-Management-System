@@ -1,3 +1,7 @@
+<?php
+require('server.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +17,7 @@
             <span>Rosewood</span> <span>Park</span>
         </h3>
     <h1>Client Login</h1>
-    <form action="/login" method="POST">
+    <form action="server.php" method="POST">
         <!-- Email Input -->
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required><br><br>
