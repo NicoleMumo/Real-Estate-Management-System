@@ -11,23 +11,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
     $phone = $_POST['phone'];
 
-    // Check if form data is collected
-    echo "First Name: $firstName, Last Name: $lastName, Email: $email, Phone: $phone <br>";
+    // Check if form data is being collected properly
+    echo "Received: First Name - $firstName, Last Name - $lastName, Email - $email, Phone - $phone<br>";
 
-    // SQL query to insert data into the database
-    $sql = "INSERT INTO clients (first_name, last_name, email, password, phone) 
-            VALUES (:first_name, :last_name, :email, :password, :phone)";
+    // SQL query to insert data into the 'users' table
+    $sql = "INSERT INTO users (firstname, lastname, email, password, phonenumber) 
+            VALUES (:firstname, :lastname, :email, :password, :phonenumber)";
 
     try {
         // Prepare the statement
         $stmt = $pdo->prepare($sql);
 
         // Bind the form data to the SQL query
-        $stmt->bindParam(':first_name', $firstName);
-        $stmt->bindParam(':last_name', $lastName);
+        $stmt->bindParam(':firstname', $firstName);
+        $stmt->bindParam(':lastname', $lastName);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':phonenumber', $phone);
 
         // Execute the query
         if ($stmt->execute()) {
@@ -38,5 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
+} else {
+    echo "Form is not being submitted properly.";
 }
 ?>
