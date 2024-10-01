@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Execute the query
         if ($stmt->execute()) {
             echo "Registration successful!";
+            header("Location: index.html");
+            exit();
         } else {
             echo "Failed to register!";
         }
