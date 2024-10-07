@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="resident.css">
 </head>
 <body>
     <header>
@@ -12,7 +13,7 @@
             <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
         </div>
 
-        <nav>
+        <nav class="nav"> 
                 <a href= "#payments"style="--1">PAYMENTS </a>
                 <a href= "#maintenance"style="--1">MAINTENANCE </a>
                 <a href= "#guests"style="--1">GUESTS </a>
@@ -23,6 +24,9 @@
         </nav>
     </header>
 
+    <main>
+    <!--The Sidebar-->
+    <aside class="sidebar">
     <section id="personal-profile">
         <h2>Personal Profile</h2>
         <p>View and edit your personal information.</p>
@@ -33,18 +37,12 @@
         <h2>Rental Payments</h2>
         <p>View your rental payment history and make online rent payments.</p>
         <button>Make Payment</button>
-
-        <h3>Rental Payment History</h3>
-        <canvas id="rentalChart"></canvas>
     </section>
 
     <section id="maintenance-requests">
         <h2>Maintenance Requests</h2>
         <p>Submit maintenance requests and track their status.</p>
         <button>Submit Request</button>
-
-        <h3>Maintenance Request Status</h3>
-        <canvas id="maintenanceChart"></canvas>
     </section>
 
     <section id="notifications">
@@ -52,7 +50,23 @@
         <p>Rent payment due date REMINDER!!!.</p>
         <button>Settings</button>
     </section>
+ </aside>
 
+ <!--Main Content-->
+ <section class="content">
+    <div>
+        <h3>Rental Payment History</h3>
+        <canvas id="rentalChart"></canvas>
+    </div>
+
+    <div>       
+        <h3>Maintenance Request Status</h3>
+        <canvas id="maintenanceChart"></canvas> 
+    </div>
+ </section>
+</main>
+
+<!--Footer-->
     <footer>
         <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
         <div class="social-media">
@@ -78,6 +92,9 @@
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 3,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -109,7 +126,9 @@
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 3,
             }
         });
     </script>
