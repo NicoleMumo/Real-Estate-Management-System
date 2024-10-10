@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 // Initialize response array
 $response = array("status" => "error", "message" => "");
 
-// Check if the form is submitted for registration
+// Check if the form is submitted for client registration
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['firstName'])) {
     // Registration process
     $firstName = $_POST['firstName'];
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['firstName'])) {
     $propertyType = $_POST['propertyType'];
     $budget = $_POST['budget'];
 
-    // SQL query to insert the data into the database
+    // SQL query to insert the client data into the database
     $sql = "INSERT INTO clienttable (FirstName, LastName, Email, Password, PhoneNumber, StreetAddress, City, StateProvince, ZIPPostalCode, PropertyType, BudgetRange) 
             VALUES ('$firstName', '$lastName', '$email', '$password', '$phone', '$streetAddress', '$city', '$state', '$zipCode', '$propertyType', '$budget')";
 
@@ -45,10 +45,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['firstName'])) {
     } else {
         $response["message"] = "Error: " . $conn->error;
     }
-
-    // Close the database connection
-    $conn->close();
 }
+
+// Check if the form is submitted to add a property
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['addProperty'])) {
+    $propertyName = $_POST['propertyName'];
+    $propertyLocation = $_POST['propertyLocation'];
+    $propertyType = $_POST['propertyType'];
+    $propertyPrice = $_POST['propertyPrice'];
+
+    // SQL query to insert the property data into the database
+    $sql = "INSERT INTO propertytable (PropertyName, Location, PropertyType, Price) 
+            VALUES ('$propertyName', '$propertyLocation', '$propertyType', '$propertyPrice')";
+
+    // Execute the query and check if the property was added successfully
+    if ($conn->query($sql) === TRUE) {
+        $response["status"] = "success";
+        $response["message"] = "New property added successfully!";
+    } else {
+        $response["message"] = "Error: " . $conn->error;
+    }
+}
+
+// Close the database connection
+$conn->close();
 
 // Send JSON response
 header('Content-Type: application/json');
