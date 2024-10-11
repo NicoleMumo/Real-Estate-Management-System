@@ -65,8 +65,6 @@ section{
     display: flex;
     align-items: center;
 }
-
-
 .headlinesection{
    text-wrap: nowrap;
    text-shadow:  2px 2px 5px rgba(0, 0, 0, 0.3);
@@ -176,7 +174,7 @@ section{
 }
 
 #first{
-    width: 10 00px;
+    width: 15 00px;
     margin: 10px auto;
     columns: 4;
     column-gap: 10px;
