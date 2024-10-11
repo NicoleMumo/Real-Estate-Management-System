@@ -1,8 +1,10 @@
+index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Document</title>
 </head>
 <link rel="stylesheet" href="style.css">
@@ -12,12 +14,12 @@
             <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
         </div>
         <nav>
-            <a href="#home"style="--1">HOME</a>
-            <a href="#about"style="--2">ABOUT</a>
-            <a href="#amenities"style="--3">AMENITIES</a>
-            <a href="#contact"style="--4">CONTACT</a>
-            <a href="login.html"style="--5">LOGIN</a>
-            <a href="register.html"style="--6">REGISTER</a>
+            <a href="#home"style="--i:1" class="active">HOME</a>
+            <a href="#about"style="--i:2">ABOUT</a>
+            <a href="#amenities"style="--i:3">AMENITIES</a>
+            <a href="#contact"style="--i:4">CONTACT</a>
+            <a href="login.php"style="--i:5">LOGIN</a>
+            <a href="register.html"style="--i:6">REGISTER</a>
         </nav>
     </header>
     <section>
@@ -27,9 +29,19 @@
                 <h3>Rosewood park estate is one of the best estates in kilimani<br>It is a peaceful and serene place to live in</h3>
                 <a href=""><button class="btn"><span>BOOK A HOUSE</span></button></a>
             </div>
+            <div class="backpic"><img src="landingpageimages/paint.png" ></div>
         </div>
         <div id="first">
-            <img src="landingpageimages/bg-1.png" alt="rosewoodpark" width="650" height="510">
+            <div class="box" style="--i:1"><img src="landingpageimages/p2.jpg" >  </div>
+            <div class="box" style="--i:2"><img src="landingpageimages/p3.jpg" > </div>
+            <div class="box"style="--i:3"><img src="landingpageimages/p4.jpg" > </div>
+            <div class="box" style="--i:4"><img src="landingpageimages/p5.jpg" > </div>
+            <div class="box" style="--i:5"><img src="landingpageimages/p6.jpg" > </div>
+            <div class="box" style="--i:6"><img src="landingpageimages/p8.jpg" > </div>
+            <div class="box" style="--i:7"><img src="landingpageimages/p9.jpg" > </div>
+            <div class="box" style="--i:8"><img src="landingpageimages/p10.jpg" > </div>
+            <div class="box" style="--i:9"><img src="landingpageimages/p11.jpg" > </div>
+            <div class="box" style="--i:10"><img src="landingpageimages/p12.jpg" > </div>
         </div>
     </section>
     <!-------about us -->
@@ -46,60 +58,67 @@
         </div>
     </div>
     <div id="amenities">
+        
         <h3 style="text-align: center;">AMENITIES</h3>
-        <div id="inamenities">
-            <div id="pool">
-                <img src="landingpageimages/pool.jpg" alt="pool" class="pics">
-                <div class="middle">
-                    <div class="text">
-                        <p>HEATED SWIMMING POOL</p>
+        <div class="inamenities">
+            <div class="backpic2"><img src="landingpageimages/paint3.png" ></div>
+            <div class="slide">
+
+                <div class="item" style="background-image: url(landingpageimages/pool.jpg);">
+                    <div class="content">
+                        <div class="name">Heated Swimming pool</div> 
+                        <div class="description">The pool offers a place to relax with around the clock availability</div>
+                        <button class="button">See more</button>
                     </div>
                 </div>
-            </div>
-            <div id="pool">
-                <img src="landingpageimages/Gym photo.jpg" alt="Gym" class="pics">
-                <div class="middle">
-                    <div class="text">
-                        <p>FULLY EQUIPED GYM</p>
+
+                <div class="item" style="background-image: url(landingpageimages/Gym\ photo.jpg);">
+                    <div class="content">
+                        <div class="name">Gym</div> 
+                        <div class="description">A little something for the gym fitness enthusiasts</div>
+                        <button>See more</button>
                     </div>
                 </div>
-            </div>
-            <div id="pool">
-                <img src="landingpageimages/children play.jpeg" alt="play area" class="pics">
-                <div class="middle">
-                    <div class="text">
-                        <p>CHILDREN'S PLAY AREA</p>
+
+                <div class="item" style="background-image: url(landingpageimages/children\ play.jpeg);">
+                    <div class="content">
+                        <div class="name">Playground</div> 
+                        <div class="description">Everything a child needs to be happy. All here.</div>
+                        <button>See more</button>
                     </div>
                 </div>
-            </div>
-            <div id="pool">
-                <img src="landingpageimages/sauna photo.jpg" alt="sauna" class="pics">
-                <div class="middle">
-                    <div class="text">
-                        <P>SAUNA AND SPA</P>
+
+                <div class="item" style="background-image: url(landingpageimages/sauna\ photo.jpg);">
+                    <div class="content">
+                        <div class="name">Sauna</div> 
+                        <div class="description">Just relax and let our luxurious saunas nourish you.</div>
+                        <button>See more</button>
                     </div>
                 </div>
-            </div>
-            <div id="pool">
-                <img src="landingpageimages/surveillance.jpg" alt="sauna" class="pics">
-                <div class="middle">
-                    <div class="text">
-                        <P>24/7 SURVEILLANCE</P>
+
+                <div class="item" style="background-image: url(landingpageimages/surveillance.jpg);">
+                    <div class="content">
+                        <div class="name">Surveillance</div> 
+                        <div class="description">24/7 surveillace that comes with the luxury of unmatched safety</div>
+                        <button>See more</button>
                     </div>
                 </div>
+
+                
+
+
+
             </div>
-            <div id="pool">
-                <img src="landingpageimages/sauna photo.jpg" alt="sauna" class="pics">
-                <div class="middle">
-                    <div class="text">
-                        <P>SAUNA AND SPA</P>
-                    </div>
-                </div>
+
+            <div class="button2">
+                <button class="previous"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="next"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
+       
         </div>
     </div>
     <footer>
-        <div id="contact">
+        <div class="contact">
             <div class="contact-us">
                 <div class="contact-info">
                     <h1>Contact Us</h1>
@@ -153,5 +172,6 @@
             </form>
         </div>
     </footer>
+    <script src="app.js"></script>
 </body>
 </html>

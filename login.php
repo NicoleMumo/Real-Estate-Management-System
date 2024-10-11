@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Redirect based on the user's role
                 switch ($user['role']) {
                     case 'Resident':
-                        header("Location: resident_page.php");
+                        header("Location: resident_homepage.html");
                         exit();
                     case 'PropertyOwner':
-                        header("Location: property_owner_page.php");
+                        header("Location: ownerdashboard.php");
                         exit();
                     case 'Helpline':
                         header("Location: helpline_page.php");
