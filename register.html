@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,6 +36,15 @@
                 
                 <label for="phone">Phone Number:</label><br>
                 <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required><br><br>
+                
+                <!-- User Role Dropdown -->
+                <label for="role">Register as:</label><br>
+                <select id="role" name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="Resident">Resident</option>
+                    <option value="PropertyOwner">Property Owner</option>
+                    <option value="Helpline">Helpline</option>
+                </select><br><br>
             </fieldset>
         
             <!-- Submit Button -->
