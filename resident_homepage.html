@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="resident.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
+        </div>
+
+        <nav class="nav"> 
+                <a href= "#payments"style="--1">PAYMENTS </a>
+                <a href= "#maintenance"style="--1">MAINTENANCE </a>
+                <a href= "#guests"style="--1">GUESTS </a>
+                <form action="/search" method="get">
+                <input type="text" placeholder="Search" name="query">
+                <input type="submit" value="Search">
+                </form>
+        </nav>
+    </header>
+
+    <main>
+    <!--The Sidebar-->
+    <aside class="sidebar">
+    <section id="personal-profile">
+        <h2>Personal Profile</h2>
+        <p>View and edit your personal information.</p>
+        <button>Edit Profile</button>
+    </section>
+
+    <section id="rental-payments">
+        <h2>Rental Payments</h2>
+        <p>View your rental payment history and make online rent payments.</p>
+        <button>Make Payment</button>
+    </section>
+
+    <section id="maintenance-requests">
+        <h2>Maintenance Requests</h2>
+        <p>Submit maintenance requests and track their status.</p>
+        <button>Submit Request</button>
+    </section>
+
+    <section id="notifications">
+        <h2>Notifications</h2>
+        <p>Rent payment due date REMINDER!!!.</p>
+        <button>Settings</button>
+    </section>
+ </aside>
+
+ <!--Main Content-->
+ <section class="content">
+    <div>
+        <h3>Rental Payment History</h3>
+        <canvas id="rentalChart"></canvas>
+    </div>
+
+    <div>       
+        <h3>Maintenance Request Status</h3>
+        <canvas id="maintenanceChart"></canvas> 
+    </div>
+ </section>
+</main>
+
+<!--Footer-->
+    <footer>
+        <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
+        <div class="social-media">
+            <a href="#"><img src="landingpageimages/instagrampic.png" alt="instagram" height="20px" width="20px"></a> |
+            <a href="#"><img src="landingpageimages/social-media.png" alt="tiktok" height="20px" width="20px"></a> |
+            <a href="#"><img src="landingpageimages/logo.png" alt="whatsapp" height="20px" width="20px"></a>
+        </div>
+    </footer>
+
+    <script>
+        // Rental Payment History Chart
+        const rentalCtx = document.getElementById('rentalChart').getContext('2d');
+        const rentalChart = new Chart(rentalCtx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Payments ($)',
+                    data: [1200, 1500, 1100, 1400, 1350],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 3,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Maintenance Request Status Chart
+        const maintenanceCtx = document.getElementById('maintenanceChart').getContext('2d');
+        const maintenanceChart = new Chart(maintenanceCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Completed', 'In Progress', 'Pending'],
+                datasets: [{
+                    label: 'Requests',
+                    data: [10, 5, 2],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 3,
+            }
+        });
+    </script>
+
+</body>
+</html>
