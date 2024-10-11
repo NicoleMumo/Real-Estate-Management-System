@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         // SQL query to find the user by email
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $sql = "SELECT * FROM registerresidents WHERE email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
