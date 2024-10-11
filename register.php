@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "Received: First Name - $firstName, Last Name - $lastName, Email - $email, Phone - $phone, Role - $role<br>";
 
     // SQL query to insert data into the 'users' table
-    $sql = "INSERT INTO users (firstname, lastname, email, password, phonenumber, role) 
+    $sql = "INSERT INTO registerresidents (firstname, lastname, email, password, phonenumber, role) 
             VALUES (:firstname, :lastname, :email, :password, :phonenumber, :role)";
 
     try {
