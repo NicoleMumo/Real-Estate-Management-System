@@ -1,53 +1,55 @@
 <?php
-session_start(); // Start the session to store user information
-include 'db_connect.php'; // Include your database connection file
+// Include the database connection
+include 'db_connect.php';
+
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Collect form data
-    $email = $_POST['email'];
+    // Get the form inputs
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
 
     try {
-        // SQL query to find the user by email
-        $sql = "SELECT * FROM registerresidents WHERE email = :email";
-        $stmt = $pdo->prepare($sql);
+        // Prepare the SQL statement to find the user by email
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-        
-        // Fetch user data
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            // Verify the password
+        // Check if a user with the provided email exists
+        if ($stmt->rowCount() > 0) {
+            // Fetch the user data
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Verify the provided password with the hashed password in the database
             if (password_verify($password, $user['password'])) {
-                // Store user data in session variables
+                // Start the session and store user information
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['first_name'] = $user['firstname'];
-                $_SESSION['last_name'] = $user['lastname'];
+                $_SESSION['firstname'] = $user['firstname'];
                 $_SESSION['role'] = $user['role'];
 
-                // Redirect based on the user's role
-                switch ($user['role']) {
-                    case 'Resident':
-                        header("Location: resident_homepage.html");
-                        exit();
-                    case 'PropertyOwner':
-                        header("Location: ownerdashboard.php");
-                        exit();
-                    case 'Helpline':
-                        header("Location: helpline_page.php");
-                        exit();
-                    default:
-                        echo "Unknown role!";
+                // Redirect based on user role
+                if ($user['role'] == 'Resident') {
+                    header('Location: resident_homepage.html');
+                } elseif ($user['role'] == 'PropertyOwner') {
+                    header('Location: ownerdashboard.php');
+                } elseif ($user['role'] == 'Helpline') {
+                    header('Location: helplinedashboard.php');
                 }
+                exit;
             } else {
+                // Password is incorrect
                 echo "Invalid password!";
             }
         } else {
-            echo "No user found with that email!";
+            // No user found with that email
+            echo "No account found with this email!";
         }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
+
+    // Close the connection
+    $conn = null;
 }
 ?>
