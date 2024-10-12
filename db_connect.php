@@ -1,23 +1,19 @@
 <?php
-// Database connection details
-$host = 'autorack.proxy.rlwy.net'; // Host from the Railway connection string
-$db   = 'railway'; // Database name from the connection string
-$user = 'root'; // Username from the connection string
-$pass = 'LifLMGJMeLhzwTBqhtqGlzcdKozGdwFh'; // Password from the connection string
-$port = '45514'; // Port from the Railway connection string
+// db_connect.php
 
-// Data Source Name (DSN) for the PDO connection
-$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
+$servername = "localhost:3307"; // Replace with your MySQL port if different
+$username = "root"; // Default XAMPP MySQL username
+$password = "oliviamumbi2010"; // Default XAMPP MySQL password is empty
+$dbname = "software";
+ // Your database name
 
 try {
-    // Create a new PDO instance
-    $pdo = new PDO($dsn, $user, $pass);
-    // Set error mode to throw exceptions
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Optional: Uncomment the line below for testing
-    // echo "Database connection successful!"; 
-} catch (PDOException $e) {
-    // Output connection error
+    // Create a new PDO connection
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // Set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
+    exit();
 }
 ?>
