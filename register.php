@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Execute the query
         if ($stmt->execute()) {
             echo "Registration successful!";
+            //Redirect to the homepage
+            header("Location: login.html");
         } else {
             echo "Registration failed!";
         }
