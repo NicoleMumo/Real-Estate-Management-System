@@ -27,10 +27,10 @@
     <main>
     <!--The Sidebar-->
     <aside class="sidebar">
-    <section id="personal-profile">
-        <h2>Personal Profile</h2>
-        <p>View and edit your personal information.</p>
-        <button>Edit Profile</button>
+    <section id="electricity-token">
+        <h2>Electricity Token</h2>
+        <p>View your token purchase history here.</p>
+        <button>View History</button>
     </section>
 
     <section id="rental-payments">
@@ -65,6 +65,81 @@
     </div>
  </section>
 </main>
+
+<!-- Modals -->
+<div id="electricityTokenModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('electricityTokenModal')">&times;</span>
+        <h2>Electricity Token Logs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date Purchased</th>
+                        <th>Token Amount (kWh)</th>
+                        <th>Token ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example data, this can be dynamically generated -->
+                    <tr>
+                        <td>2024-10-01</td>
+                        <td>50</td>
+                        <td>1234567890</td>
+                    </tr>
+                    <tr>
+                        <td>2024-09-15</td>
+                        <td>30</td>
+                        <td>0987654321</td>
+                    </tr>
+                    <tr>
+                        <td>2024-09-01</td>
+                        <td>75</td>
+                        <td>5678901234</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button onclick="closeModal('electricityTokenModal')">Close</button>
+    </div>
+</div>
+
+<div id="makePaymentModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('makePaymentModal')">&times;</span>
+        <h2>Make Payment</h2>
+        <p>This is where the resident can make payments.</p>
+        <button onclick="closeModal('makePaymentModal')">Close</button>
+    </div>
+</div>
+
+<div id="submitRequestModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
+        <h2>Submit Request</h2>
+        <p>This is where the resident can submit maintenance requests.</p>
+        <button onclick="closeModal('submitRequestModal')">Close</button>
+    </div>
+</div>
+
+<div id="settingsModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('settingsModal')">&times;</span>
+        <h2>Settings</h2>
+        <p>This is where the resident can adjust notification settings.</p>
+        <button onclick="closeModal('settingsModal')">Close</button>
+    </div>
+</div>
+
+<script>
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+</script>
+
 
 <!--Footer-->
     <footer>
