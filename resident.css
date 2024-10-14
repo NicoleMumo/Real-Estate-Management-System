@@ -192,3 +192,68 @@ footer .social-media a img {
 .modal-content button {
     margin-top: 20px;
 }
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: auto;
+    text-align: left;
+}
+
+.phone-input {
+    display: flex;
+    gap: 5px;
+}
+
+.phone-input select, .phone-input input {
+    width: 100%;
+}
+
+.payment-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+.modal-content h2 {
+    color: #ff6600;
+}
+
+select, input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+#totalDue, #paymentAmount {
+    font-weight: bold;
+}
+
+.view-history {
+margin-top: 20px;
+text-align: center;
+}
+
+.view-history button {
+background-color: #28a745;
+color: white;
+padding: 10px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
