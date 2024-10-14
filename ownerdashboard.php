@@ -111,11 +111,7 @@
                         <th>Last Name</th>
                         <th>Email</th>
                         <th>Phone Number</th> <!-- Added Phone Number -->
-                        <th>Street Address</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>ZIP Code</th>
-                        <th>Actions</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
