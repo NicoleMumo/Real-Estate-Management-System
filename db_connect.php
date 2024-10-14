@@ -1,9 +1,9 @@
 <?php
 // db_connect.php
 
-$servername = "localhost:3307"; // Replace with your MySQL port if different
+$servername = "localhost"; // Replace with your MySQL port if different
 $username = "root"; // Default XAMPP MySQL username
-$password = "oliviamumbi2010"; // Default XAMPP MySQL password is empty
+$password = ""; // Default XAMPP MySQL password is empty
 $dbname = "software";
  // Your database name
 
