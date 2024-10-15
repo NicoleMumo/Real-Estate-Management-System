@@ -42,7 +42,7 @@
     <section id="maintenance-requests">
         <h2>Maintenance Requests</h2>
         <p>Submit maintenance requests and track their status.</p>
-        <button>Submit Request</button>
+        <button onclick="openModal('submitRequestModal')">Submit Request</button>
     </section>
 
     <section id="notifications">
@@ -183,19 +183,34 @@
         alert("Payment processing...");
     }
 </script>
-
-            
-        
-
+     
 <div id="submitRequestModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
-        <h2>Submit Request</h2>
-        <p>This is where the resident can submit maintenance requests.</p>
-        <button onclick="closeModal('submitRequestModal')">Close</button>
+        <h2>Raise A Ticket</h2>
+        <p>Please fill out the details below to raise a maintenance ticket.</p>
+
+        <!-- Category Section -->
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="electrical">Electrical</option>
+            <option value="plumbing">Plumbing</option>
+            <option value="paintWorks">Paint Works</option>
+            <option value="carpentry">Carpentry</option>
+            <option value="others">Others</option>
+        </select>
+
+        <!-- Upload Photo Section -->
+        <label for="photoUpload">Upload Photo of the Area:</label>
+        <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
+
+        <!-- Buttons -->
+        <div style="margin-top: 20px;">
+            <button onclick="sendRequest()">Send</button>
+            <button onclick="closeModal('submitRequestModal')">Cancel</button>
+        </div>
     </div>
 </div>
-
 <div id="settingsModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('settingsModal')">&times;</span>
