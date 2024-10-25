@@ -1,9 +1,13 @@
 <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Database connection
-$servername = "localhost"; // assuming you're running MySQL on localhost
-$username = "root"; // your MySQL username
-$password = ""; // your MySQL password
-$dbname = "software"; // your database name
+$servername = "localhost";
+$username = "root";
+$password = ""; // Update if you have a password
+$dbname = "software";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,22 +17,79 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Assuming $userId represents the logged-in property owner’s ID
+$userId = 1; // Replace this with the actual logged-in property owner’s ID
+
 // Handle form submission for adding properties
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
-    $propertyName = $_POST["propertyName"];
-    $location = $_POST["location"];
-    $price = $_POST["price"];
-    $numRooms = $_POST["numRooms"];
+    $propertyName = trim($_POST["propertyName"]);
+    $location = trim($_POST["location"]);
+    $price = floatval($_POST["price"]); // Ensure it's a float
+    $numRooms = intval($_POST["numRooms"]); // Ensure it's an integer
 
-    $sql = "INSERT INTO properties (property_name, location, price, num_rooms)
-            VALUES ('$propertyName', '$location', '$price', '$numRooms')";
+    // Prepared statement to prevent SQL injection
+    $stmt = $conn->prepare("INSERT INTO Properties (property_name, location, price, num_rooms, owner_id) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssdii", $propertyName, $location, $price, $numRooms, $userId);
 
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
         echo "<script>alert('New property added successfully');</script>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
+
+    $stmt->close(); // Close the prepared statement
 }
+
+// Fetch tenants data for the property owner
+$tenantsSql = "
+    SELECT t.tenant_id, t.firstname, t.lastname, t.email, t.phonenumber
+    FROM tenants t
+    JOIN properties p ON t.property_id = p.property_id
+    WHERE p.owner_id = ?";
+$tenantsStmt = $conn->prepare($tenantsSql);
+$tenantsStmt->bind_param("i", $userId);
+$tenantsStmt->execute();
+$tenantsResult = $tenantsStmt->get_result();
+
+// Fetch maintenance requests
+$maintenanceSql = "
+    SELECT mr.request_id, mr.request_details, mr.request_status, mr.request_date,
+           t.firstname, t.lastname, p.property_name
+    FROM maintenance_requests mr
+    JOIN tenants t ON mr.tenant_id = t.tenant_id
+    JOIN properties p ON mr.property_id = p.property_id
+    WHERE p.owner_id = ?";
+$maintenanceStmt = $conn->prepare($maintenanceSql);
+$maintenanceStmt->bind_param("i", $userId);
+$maintenanceStmt->execute();
+$maintenanceResult = $maintenanceStmt->get_result();
+
+// Fetch payments data for the property owner's tenants
+$paymentsSql = "
+    SELECT pay.payment_id, pay.amount_paid, pay.payment_date, pay.payment_status,
+           t.firstname, t.lastname, p.property_name
+    FROM payments pay
+    JOIN tenants t ON pay.tenant_id = t.tenant_id
+    JOIN properties p ON t.property_id = p.property_id
+    WHERE p.owner_id = ?";
+$paymentsStmt = $conn->prepare($paymentsSql);
+$paymentsStmt->bind_param("i", $userId);
+$paymentsStmt->execute();
+$paymentsResult = $paymentsStmt->get_result();
+
+// Fetch messages for the properties owned by the property owner
+$messagesSql = "
+    SELECT m.message_id, m.message_content, m.message_type, m.message_date, 
+           t.firstname, t.lastname, p.property_name
+    FROM messages m
+    JOIN properties p ON m.property_id = p.property_id
+    JOIN tenants t ON m.tenant_id = t.tenant_id
+    WHERE p.owner_id = ?
+    ORDER BY m.message_date DESC";
+$messagesStmt = $conn->prepare($messagesSql);
+$messagesStmt->bind_param("i", $userId);
+$messagesStmt->execute();
+$messagesResult = $messagesStmt->get_result();
 
 ?>
 
@@ -39,24 +100,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Owner Dashboard</title>
     <style>
+        /* General Body Style */
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
             color: #333;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f4f4f4;
         }
+
+        /* Header Styling */
         header {
             background-color: #3498db;
             color: white;
             padding: 10px 0;
             text-align: center;
         }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* Navigation Bar Styling */
         nav {
             margin-bottom: 20px;
         }
+
         nav ul {
             list-style: none;
             padding: 0;
@@ -64,38 +134,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
             justify-content: space-around;
             background-color: #2c3e50;
         }
+
         nav ul li {
             display: inline;
         }
+
         nav ul li a {
             color: white;
             text-decoration: none;
             padding: 10px;
             display: block;
         }
+
         nav ul li a:hover {
             background-color: #2980b9;
         }
+
+        /* Form Container Styling */
         .dashboard-form {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h2 {
             color: #2c3e50;
             border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
         }
+
         .form-section {
             margin-bottom: 20px;
             display: none;
         }
+
         label, input, textarea, table, .btn {
             margin-bottom: 10px;
             display: block;
             width: 100%;
         }
+
         .btn {
             background-color: #3498db;
             color: #fff;
@@ -103,23 +182,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
             border: none;
             cursor: pointer;
         }
+
         .btn:hover {
             background-color: #2980b9;
         }
+
+        /* Table Styling */
         table, th, td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         .action-btn {
             background-color: #2ecc71;
             padding: 5px;
             color: white;
             border: none;
+            cursor: pointer;
         }
+
         .action-btn.delete {
             background-color: #e74c3c;
         }
@@ -141,11 +227,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
         </ul>
     </nav>
 
-    <!-- Dashboard Form -->
-    <form class="dashboard-form" method="post" action="">
-        <!-- Properties Section -->
-        <div id="properties" class="form-section">
-            <h2>Properties</h2>
+    <!-- Properties Section -->
+    <div id="properties" class="form-section">
+        <h2>Properties</h2>
+        <form method="post" action="">
             <label for="propertyName">Property Name:</label>
             <input type="text" id="propertyName" name="propertyName" required>
             
@@ -153,81 +238,143 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
             <input type="text" id="location" name="location" required>
             
             <label for="price">Price:</label>
-            <input type="number" id="price" name="price" required>
+            <input type="number" id="price" name="price" step="0.01" required>
             
             <label for="numRooms">Number of Rooms:</label>
             <input type="number" id="numRooms" name="numRooms" required>
             
-            <button type="submit" class="btn" name="addProperty">Add Property</button>
-        </div>
+            <input type="submit" name="addProperty" class="btn" value="Add Property">
+        </form>
+    </div>
 
-        <!-- Tenants Management Section -->
-        <div id="tenants" class="form-section">
-            <h2>Tenants Management</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tenant ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                        <td>123-456-7890</td>
-                        <td>
-                            <button class="action-btn">Edit</button>
-                            <button class="action-btn delete">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <!-- Tenants Management Section -->
+    <div id="tenants" class="form-section">
+        <h2>Tenants Management</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tenant ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($tenant = $tenantsResult->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $tenant['tenant_id']; ?></td>
+                    <td><?php echo $tenant['first_name']; ?></td>
+                    <td><?php echo $tenant['last_name']; ?></td>
+                    <td><?php echo $tenant['email']; ?></td>
+                    <td><?php echo $tenant['phone_number']; ?></td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
 
-        <!-- Maintenance Requests Section -->
-        <div id="maintenance" class="form-section">
-            <h2>Maintenance Requests</h2>
-            <p>Manage maintenance requests from tenants.</p>
-            <button type="button" class="btn">View Requests</button>
-            <button type="button" class="btn">Add New Request</button>
-        </div>
+    <!-- Maintenance Requests Section -->
+    <div id="maintenance" class="form-section">
+        <h2>Maintenance Requests</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Details</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Tenant</th>
+                    <th>Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($request = $maintenanceResult->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $request['request_id']; ?></td>
+                    <td><?php echo $request['request_details']; ?></td>
+                    <td><?php echo $request['request_status']; ?></td>
+                    <td><?php echo $request['request_date']; ?></td>
+                    <td><?php echo $request['first_name'] . ' ' . $request['last_name']; ?></td>
+                    <td><?php echo $request['property_name']; ?></td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
 
-        <!-- Payment Tracking Section -->
-        <div id="payments" class="form-section">
-            <h2>Payment Tracking</h2>
-            <p>View payment history, upcoming payments, and outstanding rent balances.</p>
-            <button type="button" class="btn">View Payments</button>
-        </div>
+    <!-- Payment Tracking Section -->
+    <div id="payments" class="form-section">
+        <h2>Payment Tracking</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Tenant</th>
+                    <th>Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($payment = $paymentsResult->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $payment['payment_id']; ?></td>
+                    <td><?php echo $payment['amount_paid']; ?></td>
+                    <td><?php echo $payment['payment_date']; ?></td>
+                    <td><?php echo $payment['payment_status']; ?></td>
+                    <td><?php echo $payment['first_name'] . ' ' . $payment['last_name']; ?></td>
+                    <td><?php echo $payment['property_name']; ?></td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
 
-        <!-- Messages/Notifications Section -->
-        <div id="messages" class="form-section">
-            <h2>Messages/Notifications</h2>
-            <p>Check important updates such as maintenance alerts, tenant messages, and payment reminders.</p>
-            <button type="button" class="btn">View Messages</button>
-        </div>
-    </form>
+    <!-- Messages Section -->
+    <div id="messages" class="form-section">
+        <h2>Messages/Notifications</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Message ID</th>
+                    <th>Content</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Tenant</th>
+                    <th>Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($message = $messagesResult->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $message['message_id']; ?></td>
+                    <td><?php echo $message['message_content']; ?></td>
+                    <td><?php echo $message['message_type']; ?></td>
+                    <td><?php echo $message['message_date']; ?></td>
+                    <td><?php echo $message['first_name'] . ' ' . $message['last_name']; ?></td>
+                    <td><?php echo $message['property_name']; ?></td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
 
     <script>
-        // Function to show the selected section
         function showSection(sectionId) {
             // Hide all sections
-            var sections = document.querySelectorAll('.form-section');
-            sections.forEach(function(section) {
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach(section => {
                 section.style.display = 'none';
             });
 
             // Show the selected section
-            document.getElementById(sectionId).style.display = 'block';
+            const activeSection = document.getElementById(sectionId);
+            activeSection.style.display = 'block';
         }
 
-        // Show the Properties section by default
+        // Optionally show the properties section by default
         showSection('properties');
     </script>
 </body>
