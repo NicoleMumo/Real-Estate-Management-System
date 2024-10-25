@@ -15,9 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     try {
-        // Prepare SQL query to insert user data
-        $sql = "INSERT INTO users (firstname, lastname, email, password, phonenumber, role) 
-                VALUES (:firstname, :lastname, :email, :password, :phonenumber, :role)";
+        // Determine the correct table and prepare the SQL query based on the role
+        if ($role === 'PropertyOwner') {
+            $sql = "INSERT INTO PropertyOwners (firstname, lastname, email, password, phonenumber, role) 
+                    VALUES (:firstname, :lastname, :email, :password, :phonenumber, :role)";
+        } elseif ($role === 'Resident') {
+            $sql = "INSERT INTO Tenants (firstname, lastname, email, password, phonenumber) 
+                    VALUES (:firstname, :lastname, :email, :password, :phonenumber)";
+        } elseif ($role === 'Helpline') {
+            $sql = "INSERT INTO helpline (firstname, lastname, email, password, phonenumber, role) 
+                    VALUES (:firstname, :lastname, :email, :password, :phonenumber, :role)";
+        } else {
+            throw new Exception("Invalid role selected.");
+        }
 
         $stmt = $conn->prepare($sql);
 
@@ -27,17 +37,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $hashedPassword);
         $stmt->bindParam(':phonenumber', $phonenumber);
-        $stmt->bindParam(':role', $role);
+        
+        // Bind the role only for Property Owners and Helpline
+        if ($role === 'PropertyOwner' || $role === 'Helpline') {
+            $stmt->bindParam(':role', $role);
+        }
 
         // Execute the query
         if ($stmt->execute()) {
             echo "Registration successful!";
-            //Redirect to the homepage
+            // Redirect to the homepage
             header("Location: login.html");
+            exit();
         } else {
             echo "Registration failed!";
         }
     } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 
@@ -52,16 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Real Estate Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style1.css">
 </head>
 <body>
-    <div>
-        <div class="logo">
-            <h3 class="animated-logo">
-                <span>Rosewood</span> <span>Park</span>
-            </h3>
-        </div>
-        <h1>Register New Client</h1> 
+    <div class="logo">
+        <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
     </div>
     <div>
         <form id="registrationForm" method="POST" action="register.php">
@@ -101,4 +114,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="right-section"></div>
 </body>
 </html>
-git 
