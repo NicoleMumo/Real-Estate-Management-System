@@ -286,6 +286,66 @@
         }
     </script>
 
+<div id="submitRequestModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
+        <h2>Raise A Ticket</h2>
+        <p>Please fill out the details below to raise a maintenance ticket.</p>
+
+        <!-- Category Section -->
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="electrical">Electrical</option>
+            <option value="plumbing">Plumbing</option>
+            <option value="paintWorks">Paint Works</option>
+            <option value="carpentry">Carpentry</option>
+            <option value="others">Others</option>
+        </select>
+
+        <!-- Upload Photo Section -->
+        <label for="photoUpload">Upload Photo of the Area:</label>
+        <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
+
+        <!-- Buttons -->
+        <div style="margin-top: 20px; ">
+            <button onclick="sendRequest()">Send</button>
+            <button onclick="closeModal('submitRequestModal')">Cancel</button>
+        </div>
+    </div>
+</div>
+<div id="settingsModal" class="modal">
+    <div class="modal-content">
+        <div class="notification-container">
+            <div class="notification-row">
+              <label for="emailNotifications">Email Notifications:</label>
+              <label class="switch">
+                <input type="checkbox" id="emailNotifications" checked>
+                <span class="slider round"></span>
+              </label>
+              </div>
+          
+            <div class="notification-row">
+              <label for="appNotifications">SMS Notifications:</label>
+              <label class="switch">
+                <input type="checkbox" id="smsNotifications">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          
+            <div class="notification-row">
+              <label for="otherNotifications">App Notifications:</label>
+              <label class="switch">
+                <input type="checkbox" id="otherNotifications">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+        <button onclick="closeModal('settingsModal')">Close</button>
+    </div>
+</div>
+</div>
+
+
     <!--Footer-->
     <footer>
         <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
