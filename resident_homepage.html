@@ -34,7 +34,7 @@
 
             <section id="rental-payments">
                 <h2>Rental Payments</h2>
-                <p>View your rental payment history and make online rent payments.</p>
+                <p>Make your online rent payments here.</p>
                 <button onclick="openModal('makePaymentModal')">Make Payment</button>
             </section>
 
@@ -107,7 +107,7 @@
                     <option value="mpesa">M-Pesa</option>
                     <option value="creditCard">Credit/Debit Card</option>
                 </select>
-
+    
                 <label for="phoneNumber">Phone Number:</label>
                 <div class="phone-input">
                     <select id="countryCode">
@@ -115,14 +115,13 @@
                     </select>
                     <input type="text" id="phoneNumber" placeholder="Enter phone number" />
                 </div>
-
+    
                 <p>Total Due: <span id="totalDue">0.00 KSh</span></p>
                 <input type="number" id="paymentAmount" placeholder="Enter amount" />
-
+    
                 <div class="payment-buttons">
-                    <button type="button" onclick="makePayment()">Make Payment</button>
+                    <button type="button" onclick="initiatePayment()">Make Payment</button>
                     <button type="button" onclick="closeModal('makePaymentModal')">Cancel</button>
-                    <button type="button" onclick="openModal('paymentHistoryModal')">View Payment History</button>
                 </div>
             </form>
         </div>
