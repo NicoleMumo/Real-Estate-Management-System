@@ -12,65 +12,59 @@
         <div class="logo">
             <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
         </div>
-
-        <nav class="nav"> 
-                <a href= "#payments"style="--1">PAYMENTS </a>
-                <a href= "#maintenance"style="--1">MAINTENANCE </a>
-                <a href= "#guests"style="--1">GUESTS </a>
-                <form action="/search" method="get">
+        <nav class="nav">
+            <a href="#payments" style="--1">PAYMENTS</a>
+            <a href="#maintenance" style="--1">MAINTENANCE</a>
+            <a href="#guests" style="--1">GUESTS</a>
+            <form action="/search" method="get">
                 <input type="text" placeholder="Search" name="query">
                 <input type="submit" value="Search">
-                </form>
+            </form>
         </nav>
     </header>
 
     <main>
-    <!--The Sidebar-->
-    <aside class="sidebar">
-    <section id="electricity-token">
-        <h2>Electricity Token</h2>
-        <p>View your token purchase history here.</p>
-        <button onclick="openModal('electricityTokenModal')">View History</button>
-    </section>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <section id="electricity-token">
+                <h2>Electricity Token</h2>
+                <p>View your token purchase history here.</p>
+                <button onclick="openModal('electricityTokenModal')">View History</button>
+            </section>
 
-    <section id="rental-payments">
-        <h2>Rental Payments</h2>
-        <p>View your rental payment history and make online rent payments.</p>
-        <button onclick="openModal('makePaymentModal')">Make Payment</button>
-    </section>
+            <section id="rental-payments">
+                <h2>Rental Payments</h2>
+                <p>View your rental payment history and make online rent payments.</p>
+                <button onclick="openModal('makePaymentModal')">Make Payment</button>
+            </section>
 
-    <section id="maintenance-requests">
-        <h2>Maintenance Requests</h2>
-        <p>Submit maintenance requests and track their status.</p>
-        <button onclick="openModal('submitRequestModal')">Submit Request</button>
-    </section>
+            <section id="maintenance-requests">
+                <h2>Maintenance Requests</h2>
+                <p>Submit maintenance requests and track their status.</p>
+                <button onclick="openModal('submitRequestModal')">Submit Request</button>
+            </section>
 
-    <section id="notifications">
-        <h2>Notifications</h2>
-        <p>Rent payment due date REMINDER!!!.</p>
-        <button onclick="openModal('settingsModal')">Settings</button>
-    </section>
- </aside>
+            <section id="notifications">
+                <h2>Notifications</h2>
+                <p>Rent payment due date REMINDER!!!</p>
+                <button onclick="openModal('settingsModal')">Settings</button>
+            </section>
+        </aside>
 
- <!--Main Content-->
- <section class="content">
-    <div>
-        <h3>Rental Payment History</h3>
-        <canvas id="rentalChart"></canvas>
-    </div>
+        <!-- Main Content with Only One Chart -->
+        <section class="content">
+            <div>
+                <h3>Rental Payment History</h3>
+                <canvas id="rentalChart"></canvas>
+            </div>
+        </section>
+    </main>
 
-    <div>       
-        <h3>Maintenance Request Status</h3>
-        <canvas id="maintenanceChart"></canvas> 
-    </div>
- </section>
-</main>
-
-<!-- Modals -->
-<div id="electricityTokenModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('electricityTokenModal')">&times;</span>
-        <h2>Electricity Token Logs</h2>
+    <!-- Modals -->
+    <div id="electricityTokenModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('electricityTokenModal')">&times;</span>
+            <h2>Electricity Token Logs</h2>
             <table>
                 <thead>
                     <tr>
@@ -80,7 +74,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example data, this can be dynamically generated -->
                     <tr>
                         <td>2024-10-01</td>
                         <td>50</td>
@@ -99,41 +92,41 @@
                 </tbody>
             </table>
             <button onclick="closeModal('electricityTokenModal')">Close</button>
+        </div>
     </div>
-</div>
 
-<div id="makePaymentModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('makePaymentModal')">&times;</span>
-        <h2>Payment</h2>
-        
-        <!-- Payment Form -->
-        <form id="paymentForm">
-            <label for="paymentMethod">Payment Using:</label>
-            <select id="paymentMethod">
-                <option value="mpesa">M-Pesa</option>
-                <option value="creditCard">Credit/Debit Card</option>
-            </select>
-            
-            <label for="phoneNumber">Phone Number:</label>
-            <div class="phone-input">
-                <select id="countryCode">
-                    <option value="254">254</option>
+    <div id="makePaymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('makePaymentModal')">&times;</span>
+            <h2>Payment</h2>
+
+            <!-- Payment Form -->
+            <form id="paymentForm">
+                <label for="paymentMethod">Payment Using:</label>
+                <select id="paymentMethod">
+                    <option value="mpesa">M-Pesa</option>
+                    <option value="creditCard">Credit/Debit Card</option>
                 </select>
-                <input type="text" id="phoneNumber" placeholder="Enter phone number" />
-            </div>
-            
-            <p>Total Due: <span id="totalDue">0.00 KSh</span></p>
-            <p>Payment: <span id="paymentAmount">0.00 KSh</span></p>
-            
-            <div class="payment-buttons">
-                <button type="button" onclick="makePayment()">Make Payment</button>
-                <button type="button" onclick="closeModal('makePaymentModal')">Cancel</button>
 
-                <div class="view-history">
+                <label for="phoneNumber">Phone Number:</label>
+                <div class="phone-input">
+                    <select id="countryCode">
+                        <option value="254">254</option>
+                    </select>
+                    <input type="text" id="phoneNumber" placeholder="Enter phone number" />
+                </div>
+
+                <p>Total Due: <span id="totalDue">0.00 KSh</span></p>
+                <input type="number" id="paymentAmount" placeholder="Enter amount" />
+
+                <div class="payment-buttons">
+                    <button type="button" onclick="makePayment()">Make Payment</button>
+                    <button type="button" onclick="closeModal('makePaymentModal')">Cancel</button>
                     <button type="button" onclick="openModal('paymentHistoryModal')">View Payment History</button>
                 </div>
-        
+            </form>
+        </div>
+    </div>
 
     <div id="paymentHistoryModal" class="modal">
         <div class="modal-content">
@@ -148,7 +141,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example data -->
                     <tr>
                         <td>2024-10-01</td>
                         <td>20,000 KSh</td>
@@ -167,114 +159,79 @@
                 </tbody>
             </table>
             <button onclick="closeModal('paymentHistoryModal')">Close</button>
-            </div>
-            </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    function makePayment() {
-        alert("Payment processing...");
-    }
-</script>
-     
-<div id="submitRequestModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
-        <h2>Raise A Ticket</h2>
-        <p>Please fill out the details below to raise a maintenance ticket.</p>
-
-        <!-- Category Section -->
-        <label for="category">Category:</label>
-        <select id="category" name="category">
-            <option value="electrical">Electrical</option>
-            <option value="plumbing">Plumbing</option>
-            <option value="paintWorks">Paint Works</option>
-            <option value="carpentry">Carpentry</option>
-            <option value="others">Others</option>
-        </select>
-
-        <!-- Upload Photo Section -->
-        <label for="photoUpload">Upload Photo of the Area:</label>
-        <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
-
-        <!-- Buttons -->
-        <div style="margin-top: 20px;">
-            <button onclick="sendRequest()">Send</button>
-            <button onclick="closeModal('submitRequestModal')">Cancel</button>
         </div>
     </div>
-</div>
-<div id="settingsModal" class="modal">
-    <div class="modal-content">
-        <div class="notification-container">
-            <div class="notification-row">
-              <label for="emailNotifications">Email Notifications:</label>
-              <label class="switch">
-                <input type="checkbox" id="emailNotifications" checked>
-                <span class="slider round"></span>
-              </label>
-              </div>
-          
-            <div class="notification-row">
-              <label for="appNotifications">SMS Notifications:</label>
-              <label class="switch">
-                <input type="checkbox" id="smsNotifications">
-                <span class="slider round"></span>
-              </label>
+
+    <div id="submitRequestModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
+            <h2>Raise A Ticket</h2>
+            <p>Please fill out the details below to raise a maintenance ticket.</p>
+
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="electrical">Electrical</option>
+                <option value="plumbing">Plumbing</option>
+                <option value="paintWorks">Paint Works</option>
+                <option value="carpentry">Carpentry</option>
+                <option value="others">Others</option>
+            </select>
+
+            <label for="photoUpload">Upload Photo of the Area:</label>
+            <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
+
+            <div style="margin-top: 20px;">
+                <button onclick="sendRequest()">Send</button>
+                <button onclick="closeModal('submitRequestModal')">Cancel</button>
             </div>
-          
-            <div class="notification-row">
-              <label for="otherNotifications">App Notifications:</label>
-              <label class="switch">
-                <input type="checkbox" id="otherNotifications">
-                <span class="slider round"></span>
-              </label>
-            </div>
-
-        <button onclick="closeModal('settingsModal')">Close</button>
-    </div>
-</div>
-
-<script>
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-</script>
-</div>
-
-
-<!--Footer-->
-    <footer>
-        <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
-        <div class="social-media">
-            <a href="#"><img src="landingpageimages/instagrampic.png" alt="instagram" height="20px" width="20px"></a> |
-            <a href="#"><img src="landingpageimages/social-media.png" alt="tiktok" height="20px" width="20px"></a> |
-            <a href="#"><img src="landingpageimages/logo.png" alt="whatsapp" height="20px" width="20px"></a>
         </div>
-    </footer>
+    </div>
 
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="notification-container">
+                <div class="notification-row">
+                    <label for="emailNotifications">Email Notifications:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="emailNotifications" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="notification-row">
+                    <label for="appNotifications">SMS Notifications:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="smsNotifications">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="notification-row">
+                    <label for="otherNotifications">App Notifications:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="otherNotifications">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <button onclick="closeModal('settingsModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Script for Dynamic Update -->
     <script>
-        // Rental Payment History Chart
+        const rentalData = [1200, 1500, 1100, 1400, 1350];
+        const rentalLabels = ['January', 'February', 'March', 'April', 'May'];
+
         const rentalCtx = document.getElementById('rentalChart').getContext('2d');
         const rentalChart = new Chart(rentalCtx, {
             type: 'bar',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May'],
+                labels: rentalLabels,
                 datasets: [{
-                    label: 'Payments ($)',
-                    data: [1200, 1500, 1100, 1400, 1350],
+                    label: 'Payments (KSh)',
+                    data: rentalData,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
@@ -283,7 +240,6 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
-                aspectRatio: 3,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -292,35 +248,37 @@
             }
         });
 
-        // Maintenance Request Status Chart
-        const maintenanceCtx = document.getElementById('maintenanceChart').getContext('2d');
-        const maintenanceChart = new Chart(maintenanceCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Completed', 'In Progress', 'Pending'],
-                datasets: [{
-                    label: 'Requests',
-                    data: [10, 5, 2],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(255, 99, 132, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(255, 99, 132, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                aspectRatio: 3,
-            }
-        });
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function makePayment() {
+            const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
+            const currentDate = new Date();
+            const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+
+            rentalLabels.push(currentMonth);
+            rentalData.push(paymentAmount);
+
+            rentalChart.update();
+
+            alert("Payment processed successfully!");
+            closeModal('makePaymentModal');
+        }
     </script>
 
+    <!--Footer-->
+    <footer>
+        <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
+        <div class="social-media">
+            <a href="#"><img src="landingpageimages/instagrampic.png" alt="instagram" height="20px" width="20px"></a> |
+            <a href="#"><img src="landingpageimages/social-media.png" alt="tiktok" height="20px" width="20px"></a> |
+            <a href="#"><img src="landingpageimages/logo.png" alt="whatsapp" height="20px" width="20px"></a>
+        </div>
+    </footer>
 </body>
 </html>
