@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://js.stripe.com/v3/"></script> <!-- Stripe library for credit card payments -->
     <link rel="stylesheet" href="resident.css">
 </head>
 <body>
@@ -127,6 +128,7 @@
         </div>
     </div>
 
+    <!-- Payment History Modal -->
     <div id="paymentHistoryModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('paymentHistoryModal')">&times;</span>
@@ -161,62 +163,90 @@
         </div>
     </div>
 
-    <div id="submitRequestModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
-            <h2>Raise A Ticket</h2>
-            <p>Please fill out the details below to raise a maintenance ticket.</p>
+    <!-- Payment Integration Scripts -->
+    <script>
+        async function initiatePayment() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
+            const phoneNumber = document.getElementById('phoneNumber').value;
 
-            <label for="category">Category:</label>
-            <select id="category" name="category">
-                <option value="electrical">Electrical</option>
-                <option value="plumbing">Plumbing</option>
-                <option value="paintWorks">Paint Works</option>
-                <option value="carpentry">Carpentry</option>
-                <option value="others">Others</option>
-            </select>
+            if (paymentMethod === 'mpesa') {
+                await payWithMpesa(phoneNumber, paymentAmount);
+            } else if (paymentMethod === 'creditCard') {
+                await payWithCreditCard(paymentAmount);
+            }
+        }
 
-            <label for="photoUpload">Upload Photo of the Area:</label>
-            <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
+        async function payWithMpesa(phoneNumber, amount) {
+            try {
+                const response = await fetch('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer YOUR_MPESA_ACCESS_TOKEN',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        BusinessShortCode: "YOUR_SHORTCODE",
+                        Password: "GENERATED_PASSWORD",
+                        Timestamp: "CURRENT_TIMESTAMP",
+                        TransactionType: "CustomerPayBillOnline",
+                        Amount: amount,
+                        PartyA: phoneNumber,
+                        PartyB: "YOUR_SHORTCODE",
+                        PhoneNumber: phoneNumber,
+                        CallBackURL: "YOUR_CALLBACK_URL",
+                        AccountReference: "RENT_PAYMENT",
+                        TransactionDesc: "Payment for rent"
+                    })
+                });
 
-            <div style="margin-top: 20px;">
-                <button onclick="sendRequest()">Send</button>
-                <button onclick="closeModal('submitRequestModal')">Cancel</button>
-            </div>
-        </div>
-    </div>
+                const data = await response.json();
+                if (data.ResponseCode === "0") {
+                    alert("Payment successful via M-Pesa!");
+                } else {
+                    alert("M-Pesa payment failed.");
+                }
+            } catch (error) {
+                console.error("Error in M-Pesa payment:", error);
+                alert("Payment failed due to network error.");
+            }
+        }
 
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <div class="notification-container">
-                <div class="notification-row">
-                    <label for="emailNotifications">Email Notifications:</label>
-                    <label class="switch">
-                        <input type="checkbox" id="emailNotifications" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
+        async function payWithCreditCard(amount) {
+            try {
+                const response = await fetch('/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ amount: amount })
+                });
+                const { clientSecret } = await response.json();
 
-                <div class="notification-row">
-                    <label for="appNotifications">SMS Notifications:</label>
-                    <label class="switch">
-                        <input type="checkbox" id="smsNotifications">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
+                const stripe = Stripe('YOUR_PUBLIC_STRIPE_KEY');
+                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: {
+                            number: '4242424242424242', // Replace with actual card input
+                            exp_month: 12,
+                            exp_year: 2024,
+                            cvc: '123',
+                        },
+                    }
+                });
 
-                <div class="notification-row">
-                    <label for="otherNotifications">App Notifications:</label>
-                    <label class="switch">
-                        <input type="checkbox" id="otherNotifications">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-
-                <button onclick="closeModal('settingsModal')">Close</button>
-            </div>
-        </div>
-    </div>
+                if (error) {
+                    console.error("Credit Card Payment Error:", error);
+                    alert("Credit Card payment failed.");
+                } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+                    alert("Payment successful via Credit Card!");
+                }
+            } catch (error) {
+                console.error("Error in Credit Card payment:", error);
+                alert("Payment failed due to network error.");
+            }
+        }
+    </script>
 
     <!-- Chart Script for Dynamic Update -->
     <script>
@@ -253,20 +283,6 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-        }
-
-        function makePayment() {
-            const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
-            const currentDate = new Date();
-            const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
-
-            rentalLabels.push(currentMonth);
-            rentalData.push(paymentAmount);
-
-            rentalChart.update();
-
-            alert("Payment processed successfully!");
-            closeModal('makePaymentModal');
         }
     </script>
 
