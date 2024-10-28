@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Dashboard</title>
+    <link rel="stylesheet" href="support-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
+        </div>
+        <nav class="nav">
+            <a href="#payments">PAYMENTS</a>
+            <a href="#maintenance">MAINTENANCE</a>
+            <a href="#guests">GUESTS</a>
+            <form action="/search" method="get">
+                <input type="text" placeholder="Search" name="query">
+                <input type="submit" value="Search">
+            </form>
+        </nav>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <section id="electricity-token">
+                <h2>Electricity Token</h2>
+                <p>View your token purchase history here.</p>
+                <button onclick="openModal('electricityTokenModal')">View History</button>
+            </section>
+            <section id="rental-payments">
+                <h2>Rental Payments</h2>
+                <p>View your rental payment history and make online rent payments.</p>
+                <button onclick="openModal('makePaymentModal')">Make Payment</button>
+            </section>
+            <section id="maintenance-requests">
+                <h2>Maintenance Requests</h2>
+                <p>Submit maintenance requests and track their status.</p>
+                <button onclick="openModal('submitRequestModal')">Submit Request</button>
+            </section>
+            <section id="notifications">
+                <h2>Notifications</h2>
+                <p>Rent payment due date REMINDER!!!</p>
+                <button onclick="openModal('settingsModal')">Settings</button>
+            </section>
+        </aside>
+
+        <section class="content">
+            <div>
+                <h3>Rental Payment History</h3>
+                <canvas id="rentalChart"></canvas>
+            </div>
+            <div>
+                <h3>Maintenance Request Status</h3>
+                <canvas id="maintenanceChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="electricityTokenModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('electricityTokenModal')">&times;</span>
+            <h2>Electricity Token Logs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date Purchased</th>
+                        <th>Token Amount (kWh)</th>
+                        <th>Token ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>2024-10-01</td><td>50</td><td>1234567890</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
+    </footer>
+
+    <script src="support.js"></script>
+</body>
+</html>
+
