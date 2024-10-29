@@ -112,7 +112,7 @@ $messagesResult = $messagesStmt->get_result();
 
         /* Header Styling */
         header {
-            background-color: #3498db;
+            background-color:  palevioletred;
             color: white;
             padding: 10px 0;
             text-align: center;
@@ -125,6 +125,7 @@ $messagesResult = $messagesStmt->get_result();
         /* Navigation Bar Styling */
         nav {
             margin-bottom: 20px;
+            
         }
 
         nav ul {
@@ -132,7 +133,7 @@ $messagesResult = $messagesStmt->get_result();
             padding: 0;
             display: flex;
             justify-content: space-around;
-            background-color: #2c3e50;
+            background-color:  palevioletred;
         }
 
         nav ul li {
@@ -176,7 +177,7 @@ $messagesResult = $messagesStmt->get_result();
         }
 
         .btn {
-            background-color: #3498db;
+            background-color:  palevioletred;;
             color: #fff;
             padding: 10px;
             border: none;

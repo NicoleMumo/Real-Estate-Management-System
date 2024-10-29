@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://js.stripe.com/v3/"></script> <!-- Stripe library for credit card payments -->
     <link rel="stylesheet" href="resident.css">
 </head>
 <body>
@@ -12,65 +13,59 @@
         <div class="logo">
             <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
         </div>
-
-        <nav class="nav"> 
-                <a href= "#payments"style="--1">PAYMENTS </a>
-                <a href= "#maintenance"style="--1">MAINTENANCE </a>
-                <a href= "#guests"style="--1">GUESTS </a>
-                <form action="/search" method="get">
+        <nav class="nav">
+            <a href="#payments" style="--1">PAYMENTS</a>
+            <a href="#maintenance" style="--1">MAINTENANCE</a>
+            <a href="#guests" style="--1">GUESTS</a>
+            <form action="/search" method="get">
                 <input type="text" placeholder="Search" name="query">
                 <input type="submit" value="Search">
-                </form>
+            </form>
         </nav>
     </header>
 
     <main>
-    <!--The Sidebar-->
-    <aside class="sidebar">
-    <section id="electricity-token">
-        <h2>Electricity Token</h2>
-        <p>View your token purchase history here.</p>
-        <button onclick="openModal('electricityTokenModal')">View History</button>
-    </section>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <section id="electricity-token">
+                <h2>Electricity Token</h2>
+                <p>View your token purchase history here.</p>
+                <button onclick="openModal('electricityTokenModal')">View History</button>
+            </section>
 
-    <section id="rental-payments">
-        <h2>Rental Payments</h2>
-        <p>View your rental payment history and make online rent payments.</p>
-        <button onclick="openModal('makePaymentModal')">Make Payment</button>
-    </section>
+            <section id="rental-payments">
+                <h2>Rental Payments</h2>
+                <p>Make your online rent payments here.</p>
+                <button onclick="openModal('makePaymentModal')">Make Payment</button>
+            </section>
 
-    <section id="maintenance-requests">
-        <h2>Maintenance Requests</h2>
-        <p>Submit maintenance requests and track their status.</p>
-        <button onclick="openModal('submitRequestModal')">Submit Request</button>
-    </section>
+            <section id="maintenance-requests">
+                <h2>Maintenance Requests</h2>
+                <p>Submit maintenance requests and track their status.</p>
+                <button onclick="openModal('submitRequestModal')">Submit Request</button>
+            </section>
 
-    <section id="notifications">
-        <h2>Notifications</h2>
-        <p>Rent payment due date REMINDER!!!.</p>
-        <button onclick="openModal('settingsModal')">Settings</button>
-    </section>
- </aside>
+            <section id="notifications">
+                <h2>Notifications</h2>
+                <p>Rent payment due date REMINDER!!!</p>
+                <button onclick="openModal('settingsModal')">Settings</button>
+            </section>
+        </aside>
 
- <!--Main Content-->
- <section class="content">
-    <div>
-        <h3>Rental Payment History</h3>
-        <canvas id="rentalChart"></canvas>
-    </div>
+        <!-- Main Content with Only One Chart -->
+        <section class="content">
+            <div>
+                <h3>Rental Payment History</h3>
+                <canvas id="rentalChart"></canvas>
+            </div>
+        </section>
+    </main>
 
-    <div>       
-        <h3>Maintenance Request Status</h3>
-        <canvas id="maintenanceChart"></canvas> 
-    </div>
- </section>
-</main>
-
-<!-- Modals -->
-<div id="electricityTokenModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('electricityTokenModal')">&times;</span>
-        <h2>Electricity Token Logs</h2>
+    <!-- Modals -->
+    <div id="electricityTokenModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('electricityTokenModal')">&times;</span>
+            <h2>Electricity Token Logs</h2>
             <table>
                 <thead>
                     <tr>
@@ -80,7 +75,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example data, this can be dynamically generated -->
                     <tr>
                         <td>2024-10-01</td>
                         <td>50</td>
@@ -99,42 +93,42 @@
                 </tbody>
             </table>
             <button onclick="closeModal('electricityTokenModal')">Close</button>
+        </div>
     </div>
-</div>
 
-<div id="makePaymentModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('makePaymentModal')">&times;</span>
-        <h2>Payment</h2>
-        
-        <!-- Payment Form -->
-        <form id="paymentForm">
-            <label for="paymentMethod">Payment Using:</label>
-            <select id="paymentMethod">
-                <option value="mpesa">M-Pesa</option>
-                <option value="creditCard">Credit/Debit Card</option>
-            </select>
-            
-            <label for="phoneNumber">Phone Number:</label>
-            <div class="phone-input">
-                <select id="countryCode">
-                    <option value="254">254</option>
+    <div id="makePaymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('makePaymentModal')">&times;</span>
+            <h2>Payment</h2>
+
+            <!-- Payment Form -->
+            <form id="paymentForm">
+                <label for="paymentMethod">Payment Using:</label>
+                <select id="paymentMethod">
+                    <option value="mpesa">M-Pesa</option>
+                    <option value="creditCard">Credit/Debit Card</option>
                 </select>
-                <input type="text" id="phoneNumber" placeholder="Enter phone number" />
-            </div>
-            
-            <p>Total Due: <span id="totalDue">0.00 KSh</span></p>
-            <p>Payment: <span id="paymentAmount">0.00 KSh</span></p>
-            
-            <div class="payment-buttons">
-                <button type="button" onclick="makePayment()">Make Payment</button>
-                <button type="button" onclick="closeModal('makePaymentModal')">Cancel</button>
-
-                <div class="view-history">
-                    <button type="button" onclick="openModal('paymentHistoryModal')">View Payment History</button>
+    
+                <label for="phoneNumber">Phone Number:</label>
+                <div class="phone-input">
+                    <select id="countryCode">
+                        <option value="254">254</option>
+                    </select>
+                    <input type="text" id="phoneNumber" placeholder="Enter phone number" />
                 </div>
-        
+    
+                <p>Total Due: <span id="totalDue">0.00 KSh</span></p>
+                <input type="number" id="paymentAmount" placeholder="Enter amount" />
+    
+                <div class="payment-buttons">
+                    <button type="button" onclick="initiatePayment()">Make Payment</button>
+                    <button type="button" onclick="closeModal('makePaymentModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Payment History Modal -->
     <div id="paymentHistoryModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('paymentHistoryModal')">&times;</span>
@@ -148,7 +142,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example data -->
                     <tr>
                         <td>2024-10-01</td>
                         <td>20,000 KSh</td>
@@ -167,23 +160,132 @@
                 </tbody>
             </table>
             <button onclick="closeModal('paymentHistoryModal')">Close</button>
-            </div>
-            </div>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<script>
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
+    <!-- Payment Integration Scripts -->
+    <script>
+        async function initiatePayment() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
+            const phoneNumber = document.getElementById('phoneNumber').value;
 
-    function makePayment() {
-        alert("Payment processing...");
-    }
-</script>
-     
+            if (paymentMethod === 'mpesa') {
+                await payWithMpesa(phoneNumber, paymentAmount);
+            } else if (paymentMethod === 'creditCard') {
+                await payWithCreditCard(paymentAmount);
+            }
+        }
+
+        async function payWithMpesa(phoneNumber, amount) {
+            try {
+                const response = await fetch('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer YOUR_MPESA_ACCESS_TOKEN',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        BusinessShortCode: "YOUR_SHORTCODE",
+                        Password: "GENERATED_PASSWORD",
+                        Timestamp: "CURRENT_TIMESTAMP",
+                        TransactionType: "CustomerPayBillOnline",
+                        Amount: amount,
+                        PartyA: phoneNumber,
+                        PartyB: "YOUR_SHORTCODE",
+                        PhoneNumber: phoneNumber,
+                        CallBackURL: "YOUR_CALLBACK_URL",
+                        AccountReference: "RENT_PAYMENT",
+                        TransactionDesc: "Payment for rent"
+                    })
+                });
+
+                const data = await response.json();
+                if (data.ResponseCode === "0") {
+                    alert("Payment successful via M-Pesa!");
+                } else {
+                    alert("M-Pesa payment failed.");
+                }
+            } catch (error) {
+                console.error("Error in M-Pesa payment:", error);
+                alert("Payment failed due to network error.");
+            }
+        }
+
+        async function payWithCreditCard(amount) {
+            try {
+                const response = await fetch('/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ amount: amount })
+                });
+                const { clientSecret } = await response.json();
+
+                const stripe = Stripe('YOUR_PUBLIC_STRIPE_KEY');
+                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: {
+                            number: '4242424242424242', // Replace with actual card input
+                            exp_month: 12,
+                            exp_year: 2024,
+                            cvc: '123',
+                        },
+                    }
+                });
+
+                if (error) {
+                    console.error("Credit Card Payment Error:", error);
+                    alert("Credit Card payment failed.");
+                } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+                    alert("Payment successful via Credit Card!");
+                }
+            } catch (error) {
+                console.error("Error in Credit Card payment:", error);
+                alert("Payment failed due to network error.");
+            }
+        }
+    </script>
+
+    <!-- Chart Script for Dynamic Update -->
+    <script>
+        const rentalData = [1200, 1500, 1100, 1400, 1350];
+        const rentalLabels = ['January', 'February', 'March', 'April', 'May'];
+
+        const rentalCtx = document.getElementById('rentalChart').getContext('2d');
+        const rentalChart = new Chart(rentalCtx, {
+            type: 'bar',
+            data: {
+                labels: rentalLabels,
+                datasets: [{
+                    label: 'Payments (KSh)',
+                    data: rentalData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
+
 <div id="submitRequestModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
@@ -205,7 +307,7 @@
         <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
 
         <!-- Buttons -->
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 20px; ">
             <button onclick="sendRequest()">Send</button>
             <button onclick="closeModal('submitRequestModal')">Cancel</button>
         </div>
@@ -241,20 +343,10 @@
         <button onclick="closeModal('settingsModal')">Close</button>
     </div>
 </div>
-
-<script>
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-</script>
+</div>
 
 
-<!--Footer-->
+    <!--Footer-->
     <footer>
         <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
         <div class="social-media">
@@ -263,63 +355,5 @@
             <a href="#"><img src="landingpageimages/logo.png" alt="whatsapp" height="20px" width="20px"></a>
         </div>
     </footer>
-
-    <script>
-        // Rental Payment History Chart
-        const rentalCtx = document.getElementById('rentalChart').getContext('2d');
-        const rentalChart = new Chart(rentalCtx, {
-            type: 'bar',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May'],
-                datasets: [{
-                    label: 'Payments ($)',
-                    data: [1200, 1500, 1100, 1400, 1350],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                aspectRatio: 3,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Maintenance Request Status Chart
-        const maintenanceCtx = document.getElementById('maintenanceChart').getContext('2d');
-        const maintenanceChart = new Chart(maintenanceCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Completed', 'In Progress', 'Pending'],
-                datasets: [{
-                    label: 'Requests',
-                    data: [10, 5, 2],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(255, 99, 132, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(255, 99, 132, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                aspectRatio: 3,
-            }
-        });
-    </script>
-
 </body>
 </html>
