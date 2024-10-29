@@ -209,9 +209,19 @@ $messagesResult = $messagesStmt->get_result();
         .action-btn.delete {
             background-color: #e74c3c;
         }
+        .logo {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    text-align: right;
+}
     </style>
+    
 </head>
 <body>
+<div class="logo">
+        <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
+    </div>
     <header>
         <h1>Property Owner Dashboard</h1>
     </header>
