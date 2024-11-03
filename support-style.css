@@ -9,13 +9,12 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
+   height: 400px;
 }
 
 /* Header styling */
 header {
+    width:96.8%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -72,14 +71,18 @@ main {
     gap: 20px;
     justify-content: center;
     margin: 30px 0;
+    height: 30px;
 }
 
-/* Card styling with overlay */
+/* Card styling */
 .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
-    flex: 1 1 auto;
-    min-width: 250px;
-    max-width: 300px;
+    width: 240px;
+    height: 300px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -88,11 +91,9 @@ main {
     color: white;
     overflow: hidden;
     transition: transform 0.2s;
-    font-family: 'Open Sans', sans-serif; 
 }
 
 .card::before {
-    font-family: 'Open Sans', sans-serif; 
     content: "";
     position: absolute;
     top: 0;
@@ -108,50 +109,51 @@ main {
     background-color: rgba(12, 131, 30, 0.655); /* Light green overlay on hover */
 }
 
+/* Content inside the card */
 .card h2,
-.card p,
-.card button {
+.card p {
     position: relative;
     z-index: 1;
-    font-size: small;
-}
-
-.card h2 {
-    font-size: 1.3em;
-    margin-bottom: 10px;
-    color: rgb(255, 255, 255);
-}
-
-.card p {
-    font-size: 1em;
-    margin-bottom: 15px;
+    font-size: medium;
+    margin: 10px 0;
+    text-align: center;
 }
 
 /* Button styling */
 button {
     background-color: rgb(0, 77, 0);
     color: #ffffff;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
+margin: 40px;
+margin-left: 40px;
+   max-width: 130px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1em;
+    font-size: 15px;
     transition: background-color 0.3s;
     position: relative;
     z-index: 1;
 }
 
 button:hover {
-    background-color:  #088a2f;; /* Darker green for hover effect */
+    background-color: #088a2f; /* Darker green for hover effect */
+}
+
+/* Ensuring buttons align horizontally at the bottom of each card */
+.card button {
+    align-self: stretch; /* Makes button full-width within the card */
+    text-align: center;
 }
 
 /* Footer styling */
 footer {
+
     background-color: rgb(63, 169, 63);
     text-align: center;
     padding: 20px;
-    margin-top: 30px;
+    margin-top: 350px;
     font-size: 0.9em;
     color: #555;
     border-top: 1px solid #cfd8dc;
@@ -164,12 +166,13 @@ footer p {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    header, nav ul {
-        flex-direction: column;
-        text-align: center;
+    main {
+        flex-direction: column; /* Stacks cards vertically on smaller screens */
+        align-items: center;
     }
 
     .card {
-        max-width: 100%; /* Allow cards to take full width on smaller screens */
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 20px;
     }
 }
