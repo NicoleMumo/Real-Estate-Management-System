@@ -3,57 +3,134 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f8fb;
-    color: #333;
+    background-color: beige;
+    color: #000000;
 }
 
-.container { width: 90%; max-width: 1200px; margin: auto; }
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
 
+/* Header styling */
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background-color: #004d40;
-    color: #ffffff;
+    background-color: rgb(63, 169, 63); /* Dark Green */
+    color: #061f0d;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header .logo img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+header h1 {
+    font-size: 1.5em;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    color: rgb(4, 44, 13);
+}
+
+/* Navigation styling */
+nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    font-size: 1em;
+}
+
+nav ul li a {
+    color: rgb(4, 44, 13);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #a7ffeb; /* Light blue hover effect */
+}
+
+/* Main Content Sections styling */
+main {
+    display: flex;
+    gap: 20px;
+    justify-content: center; /* Center the cards horizontally */
+    margin: 30px 0;
+}
+
+section {
+    flex: 1 1 auto;
+    max-width: 250px; /* Optional: set a maximum width for each card */
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+section:hover {
+    transform: translateY(-5px);
+    background-color: rgba(20, 203, 20, 0.443); /* Translucent green background on hover */
+}
+
+section h2 {
+    color: #004d40; /* Dark Green */
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+
+section p {
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+/* Button styling */
+button {
+    background-color: rgb(0, 77, 0);
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
     transition: background-color 0.3s;
 }
 
-header h1 { font-size: 1.5em; margin: 0; color: #ffffff; }
-
-/* Navigation styling */
-nav ul { display: flex; gap: 20px; list-style: none; }
-nav ul li a:hover { color: #a7ffeb; transition: color 0.3s; }
-
-/* Sidebar styling */
-.sidebar { width: 25%; padding: 10px; float: left; }
-
-section:hover { transform: scale(1.02); }
-
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    animation: fadeIn 0.3s ease-in-out;
+button:hover {
+    background-color:#84583c /* Darker green for hover effect */
 }
 
-.modal-content {
-    margin: auto;
+/* Footer styling */
+footer {
+    background-color: rgb(63, 169, 63); /* Light blue background */
+    text-align: center;
     padding: 20px;
-    width: 80%;
-    max-width: 600px;
-    background-color: white;
-    border-radius: 8px;
-    animation: scaleUp 0.3s ease-in-out;
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #555;
+    border-top: 1px solid #cfd8dc;
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes scaleUp { from { transform: scale(0.9); } to { transform: scale(1); } }
-
-footer { text-align: center; padding: 20px; color: #555; }
+footer p {
+    margin: 5px 0;
+    color: #004d40;
+}
