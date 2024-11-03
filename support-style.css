@@ -8,9 +8,9 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
+  
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
 /* Header styling */
@@ -19,7 +19,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background-color: rgb(63, 169, 63); /* Dark Green */
+    background-color:beige;
     color: #061f0d;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -83,6 +83,7 @@ section {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, background-color 0.3s;
+    height: 310px;
 }
 
 section:hover {
@@ -116,7 +117,7 @@ button {
 }
 
 button:hover {
-    background-color:#84583c /* Darker green for hover effect */
+    background-color:#032b0a /* Darker green for hover effect */
 }
 
 /* Footer styling */
