@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Merriweather:wght@400;700&display=swap');
 /* General styling */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: beige;
@@ -22,6 +23,7 @@ header {
     background-color: rgb(63, 169, 63); /* Dark Green */
     color: #061f0d;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap; /* Wraps elements on smaller screens */
 }
 
 header .logo {
@@ -36,7 +38,7 @@ header .logo img {
 
 header h1 {
     font-size: 1.5em;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     margin: 0;
     color: rgb(4, 44, 13);
 }
@@ -50,51 +52,74 @@ nav ul {
     padding: 0;
 }
 
-nav ul li {
-    font-size: 1em;
-}
-
 nav ul li a {
     color: rgb(4, 44, 13);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Merriweather', Georgia, serif;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
 }
 
 nav ul li a:hover {
-    color: #a7ffeb; /* Light blue hover effect */
+    color: #647e0c; /* Light blue hover effect */
+    text-decoration: underline;
 }
 
-/* Main Content Sections styling */
+/* Responsive Main Content Layout */
 main {
     display: flex;
+    flex-wrap: wrap; /* Ensures content wraps on smaller screens */
     gap: 20px;
-    justify-content: center; /* Center the cards horizontally */
+    justify-content: center;
     margin: 30px 0;
 }
 
+/* Card styling with overlay */
 .card {
+    position: relative;
     flex: 1 1 auto;
-    max-width: 250px; /* Optional: set a maximum width for each card */
+    min-width: 250px;
+    max-width: 300px;
     padding: 20px;
-    border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-size: cover; /* Ensure the background image covers the card */
-    background-position: center; /* Center the background image */
-    color: white; /* Text color for better contrast */
-    transition: transform 0.2s, background-color 0.3s;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    overflow: hidden;
+    transition: transform 0.2s;
+    font-family: 'Open Sans', sans-serif; 
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.card::before {
+    font-family: 'Open Sans', sans-serif; 
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.598); /* Initial translucent black overlay */
+    transition: background-color 0.3s;
+    border-radius: 8px;
 }
 
-/* Text styles inside the cards */
+.card:hover::before {
+    background-color: rgba(12, 131, 30, 0.655); /* Light green overlay on hover */
+}
+
+.card h2,
+.card p,
+.card button {
+    position: relative;
+    z-index: 1;
+    font-size: small;
+}
+
 .card h2 {
     font-size: 1.3em;
     margin-bottom: 10px;
+    color: rgb(255, 255, 255);
 }
 
 .card p {
@@ -113,15 +138,17 @@ button {
     font-weight: bold;
     font-size: 1em;
     transition: background-color 0.3s;
+    position: relative;
+    z-index: 1;
 }
 
 button:hover {
-    background-color: #84583c; /* Darker green for hover effect */
+    background-color:  #088a2f;; /* Darker green for hover effect */
 }
 
 /* Footer styling */
 footer {
-    background-color: rgb(63, 169, 63); /* Light blue background */
+    background-color: rgb(63, 169, 63);
     text-align: center;
     padding: 20px;
     margin-top: 30px;
@@ -133,4 +160,16 @@ footer {
 footer p {
     margin: 5px 0;
     color: #004d40;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header, nav ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .card {
+        max-width: 100%; /* Allow cards to take full width on smaller screens */
+    }
 }

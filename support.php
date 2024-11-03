@@ -28,14 +28,14 @@
     <!-- Main Content Sections -->
     <main>
         <!-- Maintenance Request Section -->
-        <section id="maintenance-request" class="card" style="background-image: url('SupportImages/resident-requests.jpeg');">
+        <section id="maintenance-request" class="card" style="background-image: url('SupportImages/repair-requests.jpeg');">
             <h2>Maintenance Requests</h2>
             <p>View and manage all maintenance requests submitted by residents to ensure quick and effective service.</p>
             <button onclick="viewRequests()">View Requests</button>
         </section>
 
         <!-- Resident Issues Section -->
-        <section id="resident-issues" class="card" style="background-image: url('SupportImages/repairrequests.jpeg');">
+        <section id="resident-issues" class="card" style="background-image: url('SupportImages/resident-issues.jpeg');">
             <h2>Resident Issues</h2>
             <p>Check issues reported by residents to address their concerns and enhance their living experience.</p>
             <button onclick="checkIssues()">Check Issues</button>
