@@ -8,9 +8,9 @@ body {
 }
 
 .container {
-  
-    margin-left: 1px;
-    margin-right: 1px;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
 }
 
 /* Header styling */
@@ -19,7 +19,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background-color:beige;
+    background-color: rgb(63, 169, 63); /* Dark Green */
     color: #061f0d;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -74,31 +74,30 @@ main {
     margin: 30px 0;
 }
 
-section {
+.card {
     flex: 1 1 auto;
     max-width: 250px; /* Optional: set a maximum width for each card */
-    background-color: #ffffff;
     padding: 20px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-size: cover; /* Ensure the background image covers the card */
+    background-position: center; /* Center the background image */
+    color: white; /* Text color for better contrast */
     transition: transform 0.2s, background-color 0.3s;
-    height: 310px;
 }
 
-section:hover {
+.card:hover {
     transform: translateY(-5px);
-    background-color: rgba(20, 203, 20, 0.443); /* Translucent green background on hover */
 }
 
-section h2 {
-    color: #004d40; /* Dark Green */
+/* Text styles inside the cards */
+.card h2 {
     font-size: 1.3em;
     margin-bottom: 10px;
 }
 
-section p {
-    color: #555;
+.card p {
     font-size: 1em;
     margin-bottom: 15px;
 }
@@ -117,7 +116,7 @@ button {
 }
 
 button:hover {
-    background-color:#032b0a /* Darker green for hover effect */
+    background-color: #84583c; /* Darker green for hover effect */
 }
 
 /* Footer styling */

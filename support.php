@@ -28,28 +28,28 @@
     <!-- Main Content Sections -->
     <main>
         <!-- Maintenance Request Section -->
-        <section id="maintenance-request">
+        <section id="maintenance-request" class="card" style="background-image: url('SupportImages/resident-requests.jpeg');">
             <h2>Maintenance Requests</h2>
             <p>View and manage all maintenance requests submitted by residents to ensure quick and effective service.</p>
             <button onclick="viewRequests()">View Requests</button>
         </section>
 
         <!-- Resident Issues Section -->
-        <section id="resident-issues">
+        <section id="resident-issues" class="card" style="background-image: url('SupportImages/repairrequests.jpeg');">
             <h2>Resident Issues</h2>
             <p>Check issues reported by residents to address their concerns and enhance their living experience.</p>
             <button onclick="checkIssues()">Check Issues</button>
         </section>
 
         <!-- Property Maintenance Section -->
-        <section id="property-maintenance">
+        <section id="property-maintenance" class="card" style="background-image: url('SupportImages/maintenance.jpeg');">
             <h2>Property Maintenance</h2>
             <p>Review and track property maintenance tasks, ensuring timely and efficient upkeep of the properties.</p>
             <button onclick="viewTasks()">View Tasks</button>
         </section>
 
         <!-- Communication with Property Owners Section -->
-        <section id="owner-communication">
+        <section id="owner-communication" class="card" style="background-image: url('SupportImages/communication.jpeg');">
             <h2>Communication with Property Owners</h2>
             <p>Maintain clear and direct communication with property owners to facilitate smooth management processes.</p>
             <button onclick="communicate()">Communicate</button>
