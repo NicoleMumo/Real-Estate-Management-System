@@ -4,7 +4,7 @@
 $servername = "localhost"; // Replace with your MySQL port if different
 $username = "root"; // Default XAMPP MySQL username
 $password = ""; // Default XAMPP MySQL password is empty
-$dbname = "software";
+$dbname = "real estate management system";
  // Your database name
 
 try {
