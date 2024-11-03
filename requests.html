@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Requests and Issues</title>
+    <link rel="stylesheet" href="support-style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
+        </div>
+        <nav class="nav">
+            <a href="support.html">Dashboard</a>
+            <a href="requests.html">Submit Request</a>
+            <a href="repairs.html">Repair Request</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Submit a New Request or Issue</h2>
+        <form action="/submit-request" method="post">
+            <label for="request-type">Request Type:</label>
+            <select id="request-type" name="requestType" required>
+                <option value="general">General Inquiry</option>
+                <option value="billing">Billing Issue</option>
+                <option value="service">Service Request</option>
+            </select>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="Describe your request or issue" required></textarea>
+            
+            <input type="submit" value="Submit Request">
+        </form>
+    </main>
+
+    <footer>
+        <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
+    </footer>
+</body>
+</html>
