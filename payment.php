@@ -1,118 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lipa na mpesa</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link href="" rel="stylesheet" />
-    <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" ">
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-    ></script>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap");
+<?php
+if (isset($_POST['submit'])) {
+    date_default_timezone_set('Africa/Nairobi');
 
-      body {
-        background-color: #eaedf4;
-        font-family: "Rubik", sans-serif;
-      }
+    # Access token credentials
+    $consumerKey = 'hio24i1YVeCB7sAlEoC6iZGaQNWkjucvYWwyR5tgfJNRXI26v';
+    $consumerSecret = 'VgibO2MueCX7hvLRiuWI2gcfJ8i2G967FCdGNQY3csHrC7nnC19E9fYGxQ2ULfi2';
 
-      .card {
-        width: 310px;
-        border: none;
-        border-radius: 15px;
-      }
+    # Define variables
+    $BusinessShortCode = '174379';
+    $Passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
 
-      .justify-content-around div {
-        border: none;
-        border-radius: 20px;
-        background: #f3f4f6;
-        padding: 5px 20px 5px;
-        color: #8d9297;
-      }
+    $PartyA = $_POST['phone']; // Client's phone number
+    $AccountReference = '2255';
+    $TransactionDesc = 'Test Payment';
+    $Amount = $_POST['amount'];
 
-      .justify-content-around span {
-        font-size: 12px;
-      }
+    # Get the timestamp
+    $Timestamp = date('YmdHis');
 
-      .justify-content-around div:hover {
-        background: #545ebd;
-        color: #fff;
-        cursor: pointer;
-      }
+    # Get the base64 encoded password
+    $Password = base64_encode($BusinessShortCode . $Passkey . $Timestamp);
 
-      .justify-content-around div:nth-child(1) {
-        background: #545ebd;
-        color: #fff;
-      }
+    # Header for access token
+    $headers = ['Content-Type:application/json; charset=utf8'];
 
-      span.mt-0 {
-        color: #8d9297;
-        font-size: 12px;
-      }
+    # M-PESA endpoint URLs
+    $access_token_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    $initiate_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
-      h6 {
-        font-size: 15px;
-      }
-      .mpesa {
-        background-color: green !important;
-      }
+    # Callback URL
+    $CallBackURL = 'https://example.com/callback_url.php';
 
-      img {
-        border-radius: 15px;
-      }
-    </style>
-  </head>
-  <body oncontextmenu="return false" class="snippet-body">
-    <div class="container d-flex justify-content-center">
-      <div class="card mt-5 px-3 py-4">
-        <div class="d-flex flex-row justify-content-around">
-          <div class="mpesa"><span>Mpesa </span></div>
-          <div><span>Paypal</span></div>
-          <div><span>Card</span></div>
-        </div>
-        <div class="media mt-4 pl-2">
-          <img src="./images/1200px-M-PESA_LOGO-01.svg.png" class="mr-3" height="75" />
-          <div class="media-body">
-            <h6 class="mt-1">Enter Amount & Number</h6>
-          </div>
-        </div>
-        <div class="media mt-3 pl-2">
-                          <!--bs5 input-->
+    # Request access token
+    $curl = curl_init($access_token_url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl, CURLOPT_HEADER, FALSE);
+    curl_setopt($curl, CURLOPT_USERPWD, $consumerKey . ':' . $consumerSecret);
+    $result = curl_exec($curl);
+    $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    $result = json_decode($result);
+    $access_token = $result->access_token;
+    curl_close($curl);
 
-            <form class="row g-3" action="./stk_initiate.php" method="POST">
-            
-                <div class="col-12">
-                  <label for="inputAddress" class="form-label">Amount</label>
-                  <input type="text" class="form-control" name="amount" placeholder="Enter Amount">
-                </div>
-                <div class="col-12">
-                  <label for="inputAddress2" class="form-label" >Phone Number</label>
-                  <input type="text" class="form-control" name="phone"  placeholder="Enter Phone Number">
-                </div>
-             
-                <div class="col-12">
-                  <button type="submit" class="btn btn-success" name="submit" value="submit">Donate</button>
-                </div>
-              </form>
-              <!--bs5 input-->
-          </div>
-        </div>
-      </div>
-    </div>
-    <script
-      type="text/javascript"
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
-    ></script>
-    <script type="text/javascript" src=""></script>
-    <script type="text/javascript" src=""></script>
-    <script type="text/Javascript"></script>
-  </body>
-</html>
+    # Header for STK push
+    $stkheader = ['Content-Type:application/json', 'Authorization:Bearer ' . $access_token];
+
+    # Initiate transaction
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $initiate_url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $stkheader);
+    
+    $curl_post_data = array(
+      'BusinessShortCode' => $BusinessShortCode,
+      'Password' => $Password,
+      'Timestamp' => $Timestamp,
+      'TransactionType' => 'CustomerPayBillOnline',
+      'Amount' => $Amount,
+      'PartyA' => $PartyA,
+      'PartyB' => $BusinessShortCode,
+      'PhoneNumber' => $PartyA,
+      'CallBackURL' => $CallBackURL,
+      'AccountReference' => $AccountReference,
+      'TransactionDesc' => $TransactionDesc
+    );
+
+    $data_string = json_encode($curl_post_data);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+    $curl_response = curl_exec($curl);
+    curl_close($curl);
+
+    # Display the response for debugging purposes
+    echo "<pre>";
+    print_r($curl_response);
+    echo "</pre>";
+} else {
+    # Redirect to payment.html if accessed directly
+    header("Location: payment.html");
+    exit();
+}
+?>
