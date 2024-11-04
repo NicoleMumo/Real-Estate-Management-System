@@ -8,27 +8,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style1.css">
     <script>
-        // JavaScript to validate password complexity and matching passwords
         function validateForm() {
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
-
+    
             // Regular expression for password validation
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
+    
             if (!passwordRegex.test(password)) {
-                alert("Password must contain at least 8 characters, including uppercase, lowercase, number, and symbol.");
+                alert("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.");
                 return false;
             }
-
+    
             if (password !== confirmPassword) {
                 alert("Passwords do not match!");
                 return false;
             }
-
+    
             return true;
         }
     </script>
+    
 </head>
 <body>
     <div class="logo">

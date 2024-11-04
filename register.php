@@ -12,6 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phonenumber = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
     $role = $_POST['role'];
 
+        // Server-side password complexity check
+     if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $password)) {
+         echo "Password must be at least 8 characters, with uppercase, lowercase, number, and symbol.";
+         exit();
+        }
+
     // Checking if passwords match
     if ($password !== $confirmPassword) {
         echo "Passwords do not match!";
