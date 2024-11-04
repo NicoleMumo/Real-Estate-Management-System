@@ -7,6 +7,28 @@
     <title>Register - Real Estate Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style1.css">
+    <script>
+        // JavaScript to validate password complexity and matching passwords
+        function validateForm() {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            // Regular expression for password validation
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                alert("Password must contain at least 8 characters, including uppercase, lowercase, number, and symbol.");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="logo">
@@ -29,6 +51,9 @@
                 
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password" required><br><br>
+
+                <label for="confirmPassword">Confirm Password:</label><br>
+                <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"><br><br>
                 
                 <label for="phone">Phone Number:</label><br>
                 <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required><br><br>

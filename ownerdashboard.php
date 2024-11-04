@@ -3,19 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = ""; // Update if you have a password
-$dbname = "software";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db_connect.php';
 
 // Assuming $userId represents the logged-in property owner’s ID
 $userId = 1; // Replace this with the actual logged-in property owner’s ID
