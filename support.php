@@ -29,7 +29,7 @@
     <main>
         <!-- Maintenance Request Section -->
         <section id="maintenance-request" class="card" style="background-image: url('SupportImages/repair-requests.jpeg');">
-            <h2>Maintenance Requests</h2>
+            <h2>Repair Requests</h2>
             <p>View and manage all maintenance requests submitted by residents to ensure quick and effective service.</p>
             <button onclick="openModal('viewRequestsModal')">View Requests</button>
         </section>
@@ -70,7 +70,32 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('viewRequestsModal')">&times;</span>
         <h2>View Requests</h2>
-        <p>Details about maintenance requests...</p>
+        <div id="maintenanceRequests">
+            <?php
+            // Database connection
+            $host = 'localhost';
+            $db = 'rosewood_park';
+            $user = 'root';
+            $pass = ''; // Update this
+            $conn = new mysqli($host, $user, $pass, $db);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // Fetching maintenance requests
+            $maintenanceRequests = [];
+            $maintenanceResult = $conn->query("SELECT * FROM maintenance_requests");
+            if ($maintenanceResult) {
+                while ($row = $maintenanceResult->fetch_assoc()) {
+                    $maintenanceRequests[] = $row;
+                }
+            }
+            foreach ($maintenanceRequests as $request): ?>
+                <p><strong>ID:</strong> <?= $request['id'] ?> | <strong>Description:</strong> <?= htmlspecialchars($request['description']) ?> | <strong>Priority:</strong> <?= htmlspecialchars($request['priority']) ?></p>
+            <?php endforeach; ?>
+        </div>
         <button onclick="confirmAction('viewRequestsModal')">Confirm</button>
     </div>
 </div>
@@ -79,7 +104,20 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('checkIssuesModal')">&times;</span>
         <h2>Check Issues</h2>
-        <p>Details about resident issues...</p>
+        <div id="residentIssues">
+            <?php
+            // Fetching resident issues
+            $residentIssues = [];
+            $issuesResult = $conn->query("SELECT * FROM resident_issues");
+            if ($issuesResult) {
+                while ($row = $issuesResult->fetch_assoc()) {
+                    $residentIssues[] = $row;
+                }
+            }
+            foreach ($residentIssues as $issue): ?>
+                <p><strong>ID:</strong> <?= $issue['id'] ?> | <strong>Description:</strong> <?= htmlspecialchars($issue['description']) ?> | <strong>Type:</strong> <?= htmlspecialchars($issue['issue_type']) ?></p>
+            <?php endforeach; ?>
+        </div>
         <button onclick="confirmAction('checkIssuesModal')">Confirm</button>
     </div>
 </div>
@@ -97,22 +135,27 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal('communicateModal')">&times;</span>
         <h2>Communicate</h2>
-        <p>Details about communication with property owners...</p>
+        <div id="ownerCommunications">
+            <?php
+            // Fetching owner communications
+            $ownerCommunications = [];
+            $communicationResult = $conn->query("SELECT * FROM owner_communications");
+            if ($communicationResult) {
+                while ($row = $communicationResult->fetch_assoc()) {
+                    $ownerCommunications[] = $row;
+                }
+            }
+            foreach ($ownerCommunications as $communication): ?>
+                <p><strong>ID:</strong> <?= $communication['id'] ?> | <strong>Message:</strong> <?= htmlspecialchars($communication['message']) ?></p>
+            <?php endforeach; ?>
+        </div>
         <button onclick="confirmAction('communicateModal')">Confirm</button>
     </div>
 </div>
-<?php
-// Database connection
-$host = 'localhost';
-$db = 'rosewood_park';
-$user = 'root';
-$pass = ''; // Update this
-$conn = new mysqli($host, $user, $pass, $db);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+<?php
+// Close the database connection
+$conn->close();
 ?>
 
 <script src="support.js"></script>
