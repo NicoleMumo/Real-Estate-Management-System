@@ -5,8 +5,8 @@ session_start();
 // Database connection settings
 $servername = "localhost"; 
 $username = "root"; 
-$password = "oliviamumbi2010"; 
-$dbname = "real estate management system"; 
+$password = ""; 
+$dbname = "rosewood_park"; 
 
 // Create a connection to the database
 $conn = new mysqli($servername, $username, $password, $dbname);
