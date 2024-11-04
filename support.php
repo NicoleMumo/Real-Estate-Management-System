@@ -31,28 +31,28 @@
         <section id="maintenance-request" class="card" style="background-image: url('SupportImages/repair-requests.jpeg');">
             <h2>Maintenance Requests</h2>
             <p>View and manage all maintenance requests submitted by residents to ensure quick and effective service.</p>
-            <button onclick="viewRequests()">View Requests</button>
+            <button onclick="openModal('viewRequestsModal')">View Requests</button>
         </section>
 
         <!-- Resident Issues Section -->
         <section id="resident-issues" class="card" style="background-image: url('SupportImages/resident-issues.jpeg');">
             <h2>Resident Issues</h2>
             <p>Check issues reported by residents to address their concerns and enhance their living experience.</p>
-            <button onclick="checkIssues()">Check Issues</button>
+            <button onclick="openModal('checkIssuesModal')">Check Issues</button>
         </section>
 
         <!-- Property Maintenance Section -->
         <section id="property-maintenance" class="card" style="background-image: url('SupportImages/maintenance.jpeg');">
             <h2>Property Maintenance</h2>
             <p>Review and track property maintenance tasks, ensuring timely and efficient upkeep of the properties.</p>
-            <button onclick="viewTasks()">View Tasks</button>
+            <button onclick="openModal('viewTasksModal')">View Tasks</button>
         </section>
 
         <!-- Communication with Property Owners Section -->
         <section id="owner-communication" class="card" style="background-image: url('SupportImages/communication.jpeg');">
             <h2>Communication with Property Owners</h2>
             <p>Maintain clear and direct communication with property owners to facilitate smooth management processes.</p>
-            <button onclick="communicate()">Communicate</button>
+            <button onclick="openModal('communicateModal')">Communicate</button>
         </section>
     </main>
 
@@ -65,6 +65,56 @@
     </footer>
 </div>
 
-<script src="script.js"></script>
+<!-- Modals -->
+<div id="viewRequestsModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('viewRequestsModal')">&times;</span>
+        <h2>View Requests</h2>
+        <p>Details about maintenance requests...</p>
+        <button onclick="confirmAction('viewRequestsModal')">Confirm</button>
+    </div>
+</div>
+
+<div id="checkIssuesModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('checkIssuesModal')">&times;</span>
+        <h2>Check Issues</h2>
+        <p>Details about resident issues...</p>
+        <button onclick="confirmAction('checkIssuesModal')">Confirm</button>
+    </div>
+</div>
+
+<div id="viewTasksModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('viewTasksModal')">&times;</span>
+        <h2>View Tasks</h2>
+        <p>Details about property maintenance tasks...</p>
+        <button onclick="confirmAction('viewTasksModal')">Confirm</button>
+    </div>
+</div>
+
+<div id="communicateModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('communicateModal')">&times;</span>
+        <h2>Communicate</h2>
+        <p>Details about communication with property owners...</p>
+        <button onclick="confirmAction('communicateModal')">Confirm</button>
+    </div>
+</div>
+<?php
+// Database connection
+$host = 'localhost';
+$db = 'rosewood_park';
+$user = 'root';
+$pass = ''; // Update this
+$conn = new mysqli($host, $user, $pass, $db);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+
+<script src="support.js"></script>
 </body>
 </html>
