@@ -40,12 +40,12 @@
     </script>
     
 </head>
-<body>
+<body onload="toggleDocumentUpload()">
     <div class="logo">
         <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
     </div>
     <div>
-        <form id="registrationForm" method="POST" action="register.php">
+        <form id="registrationForm" method="POST" action="register.php" enctype="multipart/form-data" onsubmit="return validateForm()">
             <!-- Personal Information -->
             <fieldset>
                 <legend>Personal Information</legend>
@@ -64,13 +64,16 @@
 
                 <label for="confirmPassword">Confirm Password:</label><br>
                 <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"><br><br>
+
+                <small>Password must be 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character.</small>
+
                 
                 <label for="phone">Phone Number:</label><br>
                 <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required><br><br>
                 
                 <!-- User Role Dropdown -->
                 <label for="role">Register as:</label><br>
-                <select id="role" name="role" required>
+                <select id="role" name="role" onchange="toggleDocumentUpload()" required>
                     <option value="">Select Role</option>
                     <option value="Resident">Resident</option>
                     <option value="PropertyOwner">Property Owner</option>
