@@ -35,7 +35,7 @@ $tenantsSql = "
     JOIN properties p ON t.property_id = p.property_id
     WHERE p.owner_id = ?";
 $tenantsStmt = $conn->prepare($tenantsSql);
-$tenantsStmt->bind_param("i", $userId);
+$tenantsStmt->bindParam("i", $userId);
 $tenantsStmt->execute();
 $tenantsResult = $tenantsStmt->get_result();
 
