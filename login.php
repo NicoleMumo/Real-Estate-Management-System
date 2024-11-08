@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($user['role'] === 'Tenant') {
                     header('Location: resident_homepage.html');
                 } elseif ($user['role'] === 'PropertyOwner') {
-                    header('Location: ownerdashboard.php');
+                    header('Location: owner_dashboard.php');
                 } elseif ($user['role'] === 'Helpline') {
                     header('Location: helplinedashboard.php');
                 }
