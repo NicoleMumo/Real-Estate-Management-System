@@ -34,8 +34,6 @@
             <button onclick="openModal('viewRequestsModal')">View Requests</button>
         </section>
 
-        
-
         <!-- Property Maintenance Section -->
         <section id="property-maintenance" class="card" style="background-image: url('SupportImages/maintenance.jpeg');">
             <h2>Property Maintenance</h2>
@@ -67,17 +65,8 @@
         <h2>View Requests</h2>
         <div id="maintenanceRequests">
             <?php
-            // Database connection
-            $host = 'localhost';
-            $db = 'rosewood_park';
-            $user = 'root';
-            $pass = ''; // Update this
-            $conn = new mysqli($host, $user, $pass, $db);
-
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+            // Include the database connection file
+            require 'db_connect.php';
 
             // Fetching maintenance requests
             $maintenanceRequests = [];

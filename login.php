@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 } elseif ($user['role'] === 'PropertyOwner') {
                     header('Location: owner_dashboard.php');
                 } elseif ($user['role'] === 'Helpline') {
-                    header('Location: helplinedashboard.php');
+                    header('Location: support.php');
                 }
                 exit;
             } else {
