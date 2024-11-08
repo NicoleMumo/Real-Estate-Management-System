@@ -2,7 +2,7 @@
 include('db_connect.php'); // Include database connection
 
 // Get all properties from the database
-$sql = "SELECT p.property_id, p.house_number, p.price_per_month, p.bedrooms, p.description, pi.image_path 
+$sql = "SELECT p.property_id, p.house_number, p.price_per_month, p.bedrooms, pi.image_path 
         FROM Properties p
         LEFT JOIN Property_Images pi ON p.property_id = pi.property_id 
         GROUP BY p.property_id";
@@ -26,17 +26,15 @@ $result = $stmt->get_result();
     <!-- Property Listings -->
     <div class="property-listings">
         <?php while ($row = $result->fetch_assoc()) { ?>
-            <div class="property-card">
+            <div class="property-card" onclick="window.location.href='property_details.php?id=<?php echo $row['property_id']; ?>'">
                 <!-- Display property image -->
-                <img src="<?php echo $row['image_path']; ?>" alt="Property Image" class="property-image">
+                <div class="property-image-container">
+                    <img src="<?php echo $row['image_path']; ?>" alt="Property Image" class="property-image">
+                </div>
 
                 <!-- Property details -->
                 <h3><?php echo $row['house_number']; ?></h3>
                 <p><?php echo $row['bedrooms']; ?> Bedrooms | KSh <?php echo number_format($row['price_per_month']); ?> / month</p>
-                <p><?php echo substr($row['description'], 0, 100); ?>...</p>
-
-                <!-- Link to property details page -->
-                <a href="property_details.php?id=<?php echo $row['property_id']; ?>">View More</a>
             </div>
         <?php } ?>
     </div>
