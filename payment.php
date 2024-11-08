@@ -39,3 +39,10 @@ if (isset($_POST['submit'])) {
       throw new Exception('Failed to get access token.');
   }
 } 
+$timestamp = date('YmdHis'); 
+
+$shortCode = "174379";
+$passkey = "YOUR_PASSKEY";
+$timestamp = "generatedtimestamp";
+
+$stk_password = base64_encode($shortCode . $passkey . $timestamp);
