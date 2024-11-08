@@ -3,39 +3,46 @@ include 'db_connect.php';
 
 $userId = 1; // Replace with the actual logged-in user ID
 
-// Handle form submission for adding properties
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
-    $houseNumber = $_POST['house_number'];
-    $pricePerMonth = $_POST['price_per_month'];
-    $location = $_POST['location'];
-    $description = $_POST['description'];
+// Fetch the property owner's name
+$ownerSql = "SELECT firstname, lastname FROM PropertyOwners WHERE owner_id = ?";
+$ownerStmt = $conn->prepare($ownerSql);
+$ownerStmt->bind_param("i", $userId);
+$ownerStmt->execute();
+$ownerResult = $ownerStmt->get_result();
+$owner = $ownerResult->fetch_assoc();
+$ownerName = $owner ? $owner['firstname'] . ' ' . $owner['lastname'] : '';
 
-    // Handle image upload
-    if (isset($_FILES['property_image']) && $_FILES['property_image']['error'] == 0) {
-        $imagePath = 'uploads/' . basename($_FILES['property_image']['name']);
-        move_uploaded_file($_FILES['property_image']['tmp_name'], $imagePath);
-    } else {
-        $imagePath = null;
+// Check if an action was submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
+    $bookingId = $_POST['booking_id'];
+    $tenantEmail = $_POST['email'];
+
+    if ($_POST['action'] == 'accept') {
+        $subject = "Booking Accepted";
+        $message = "Dear Tenant,\n\nYour booking was successful. Please pay a deposit of 10,000 Ksh to reserve the apartment.\n\nThank you,\nProperty Management Team";
+    } elseif ($_POST['action'] == 'reject') {
+        $subject = "Booking Rejected";
+        $message = "Dear Tenant,\n\nUnfortunately, the property has already been booked by someone else. We apologize for any inconvenience.\n\nBest regards,\nProperty Management Team";
     }
 
-    // Insert property into database
-    $propertySql = "INSERT INTO Properties (house_number, price_per_month, location, description, owner_id, image_path) 
-                    VALUES (?, ?, ?, ?, ?, ?)";
-    $propertyStmt = $conn->prepare($propertySql);
-    $propertyStmt->bind_param("sissis", $houseNumber, $pricePerMonth, $location, $description, $userId, $imagePath);
-    $propertyStmt->execute();
+    // Send email
+    if (mail($tenantEmail, $subject, $message)) {
+        echo "<p>Email sent successfully to $tenantEmail.</p>";
+    } else {
+        echo "<p>Failed to send email to $tenantEmail.</p>";
+    }
 }
 
-// Fetch bookings for the property owner
-$bookingsSql = "SELECT b.booking_id, p.house_number, b.first_name, b.last_name, b.email, b.phone_number 
+// Fetch bookings for the property owner along with property images
+$bookingsSql = "SELECT b.booking_id, p.house_number, b.first_name, b.last_name, b.email, b.phone_number, i.image_path 
                 FROM Property_Bookings b 
                 JOIN Properties p ON b.property_id = p.property_id 
+                LEFT JOIN Property_Images i ON p.property_id = i.property_id
                 WHERE p.owner_id = ?";
 $bookingsStmt = $conn->prepare($bookingsSql);
 $bookingsStmt->bind_param("i", $userId);
 $bookingsStmt->execute();
 $bookingsResult = $bookingsStmt->get_result();
-
 ?>
 
 <!DOCTYPE html>
@@ -47,11 +54,13 @@ $bookingsResult = $bookingsStmt->get_result();
     <style>
         body { font-family: Arial, sans-serif; }
         header { text-align: center; padding: 20px; }
-        nav { margin: 20px 0; }
         nav ul { list-style: none; padding: 0; }
         nav ul li { display: inline; margin: 0 15px; }
         .form-section { display: none; }
         .btn { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        .btn-reject { background-color: #dc3545; }
+        .card { border: 1px solid #ddd; padding: 15px; margin: 10px; width: 250px; }
+        .card img { width: 100%; height: auto; }
     </style>
 </head>
 <body>
@@ -73,57 +82,34 @@ $bookingsResult = $bookingsStmt->get_result();
     </ul>
 </nav>
 
-<!-- Properties Section -->
-<div id="properties" class="form-section">
-    <h2>Add Property</h2>
-    <form method="post" action="ownerdashboard.php" enctype="multipart/form-data">
-        <label for="house_number">House Number:</label><br>
-        <input type="text" id="house_number" name="house_number" required><br><br>
-
-        <label for="price_per_month">Price per Month (KSh):</label><br>
-        <input type="number" id="price_per_month" name="price_per_month" required><br><br>
-
-        <label for="location">Location:</label><br>
-        <input type="text" id="location" name="location" required><br><br>
-
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" rows="4" required></textarea><br><br>
-
-        <label for="property_image">Property Image:</label><br>
-        <input type="file" id="property_image" name="property_image" accept="image/*"><br><br>
-
-        <input type="submit" name="addProperty" value="Add Property" class="btn">
-    </form>
-</div>
-
 <!-- Bookings Section -->
 <div id="bookings" class="form-section">
-    <h2>Bookings</h2>
-    <table border="1" cellpadding="10">
-        <thead>
-            <tr>
-                <th>Booking ID</th>
-                <th>Resident Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Property</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $bookingsResult->fetch_assoc()) { ?>
-                <tr>
-                    <td><?php echo $row['booking_id']; ?></td>
-                    <td><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></td>
-                    <td><?php echo $row['email']; ?></td>
-                    <td><?php echo $row['phone_number']; ?></td>
-                    <td><?php echo $row['house_number']; ?></td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-</div>
+    <h2>Welcome, <?php echo htmlspecialchars($ownerName); ?></h2>
+    <h3>Your Property Bookings</h3>
+    <div style="display: flex; flex-wrap: wrap;">
+        <?php while ($row = $bookingsResult->fetch_assoc()) { ?>
+            <div class="card">
+                <?php if ($row['image_path']) { ?>
+                    <img src="<?php echo htmlspecialchars($row['image_path']); ?>" alt="Property Image">
+                <?php } else { ?>
+                    <p>No image available</p>
+                <?php } ?>
+                <h4><?php echo htmlspecialchars($row['first_name'] . ' ' . $row['last_name']); ?></h4>
+                <p>Email: <?php echo htmlspecialchars($row['email']); ?></p>
+                <p>Phone: <?php echo htmlspecialchars($row['phone_number']); ?></p>
+                <p>House Number: <?php echo htmlspecialchars($row['house_number']); ?></p>
 
-<!-- Other Sections (Tenants, Maintenance, etc.) -->
+                <!-- Accept and Reject Form -->
+                <form method="post" action="">
+                    <input type="hidden" name="booking_id" value="<?php echo $row['booking_id']; ?>">
+                    <input type="hidden" name="email" value="<?php echo htmlspecialchars($row['email']); ?>">
+                    <button type="submit" name="action" value="accept" class="btn">Accept Booking</button>
+                    <button type="submit" name="action" value="reject" class="btn btn-reject">Reject Booking</button>
+                </form>
+            </div>
+        <?php } ?>
+    </div>
+</div>
 
 <script>
 // JavaScript to show and hide sections
@@ -137,7 +123,7 @@ function showSection(section) {
     selectedSection.style.display = 'block';
 }
 
-showSection('properties');
+showSection('bookings'); // Initially show the bookings section
 </script>
 
 </body>
