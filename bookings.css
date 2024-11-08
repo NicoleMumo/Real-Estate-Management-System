@@ -1,76 +1,28 @@
-/* Basic styling for property cards */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #333;
-}
-
 .property-listings {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 20px;
-    padding: 20px;
+    justify-content: center;
 }
 
 .property-card {
-    width: 300px;
-    height: 350px;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    border: 1px solid #ccc;
+    padding: 10px;
     text-align: center;
     cursor: pointer;
-    background-color: white;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.property-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+.property-card img {
+    width: 100%;
+    height: auto;
 }
 
 .property-image-container {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
 }
 
 .property-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.property-card:hover .property-image {
-    transform: scale(1.05);
-}
-
-h3 {
-    font-size: 18px;
-    margin: 10px 0;
-    color: #333;
-}
-
-p {
-    font-size: 14px;
-    margin: 5px 0;
-    color: #777;
-}
-
-/* Adjustments for smaller screen sizes */
-@media (max-width: 768px) {
-    .property-listings {
-        justify-content: flex-start;
-    }
+    height: auto;
 }

@@ -1,5 +1,5 @@
 <?php
-include('db_connect.php'); // Include database connection
+include('db_connect.php');
 
 // Get all properties from the database
 $sql = "SELECT p.property_id, p.house_number, p.price_per_month, p.bedrooms, pi.image_path 
@@ -38,8 +38,5 @@ $result = $stmt->get_result();
             </div>
         <?php } ?>
     </div>
-
 </body>
 </html>
-
-<?php $stmt->close(); ?>
