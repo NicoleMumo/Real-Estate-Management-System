@@ -241,21 +241,25 @@ $messagesResult = $messagesStmt->get_result();
     <!-- Properties Section -->
     <div id="properties" class="form-section">
         <h2>Properties</h2>
-        <form method="post" action="">
-            <label for="propertyName">Property Name:</label>
-            <input type="text" id="propertyName" name="propertyName" required>
-            
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required>
-            
-            <label for="price">Price:</label>
-            <input type="number" id="price" name="price" step="0.01" required>
-            
-            <label for="numRooms">Number of Rooms:</label>
-            <input type="number" id="numRooms" name="numRooms" required>
-            
-            <input type="submit" name="addProperty" class="btn" value="Add Property">
-        </form>
+        <form method="post" action="" enctype="multipart/form-data">
+    <label for="propertyName">Property Name:</label>
+    <input type="text" id="propertyName" name="propertyName" required>
+    
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required>
+    
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" step="0.01" required>
+    
+    <label for="numRooms">Number of Rooms:</label>
+    <input type="number" id="numRooms" name="numRooms" required>
+
+    <label for="propertyImage">Property Image:</label>
+    <input type="file" id="propertyImage" name="propertyImage" accept="image/*" required>
+
+    <input type="submit" name="addProperty" class="btn" value="Add Property">
+</form>
+
     </div>
 
     <!-- Tenants Management Section -->
@@ -275,10 +279,10 @@ $messagesResult = $messagesStmt->get_result();
                 <?php while ($tenant = $tenantsResult->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $tenant['tenant_id']; ?></td>
-                    <td><?php echo $tenant['first_name']; ?></td>
-                    <td><?php echo $tenant['last_name']; ?></td>
+                    <td><?php echo $tenant['firstname']; ?></td>
+                    <td><?php echo $tenant['lastname']; ?></td>
                     <td><?php echo $tenant['email']; ?></td>
-                    <td><?php echo $tenant['phone_number']; ?></td>
+                    <td><?php echo $tenant['phonenumber']; ?></td>
                 </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -306,7 +310,7 @@ $messagesResult = $messagesStmt->get_result();
                     <td><?php echo $request['request_details']; ?></td>
                     <td><?php echo $request['request_status']; ?></td>
                     <td><?php echo $request['request_date']; ?></td>
-                    <td><?php echo $request['first_name'] . ' ' . $request['last_name']; ?></td>
+                    <td><?php echo $request['firstname'] . ' ' . $request['lastname']; ?></td>
                     <td><?php echo $request['property_name']; ?></td>
                 </tr>
                 <?php endwhile; ?>
@@ -335,7 +339,7 @@ $messagesResult = $messagesStmt->get_result();
                     <td><?php echo $payment['amount_paid']; ?></td>
                     <td><?php echo $payment['payment_date']; ?></td>
                     <td><?php echo $payment['payment_status']; ?></td>
-                    <td><?php echo $payment['first_name'] . ' ' . $payment['last_name']; ?></td>
+                    <td><?php echo $payment['firstname'] . ' ' . $payment['lastname']; ?></td>
                     <td><?php echo $payment['property_name']; ?></td>
                 </tr>
                 <?php endwhile; ?>
