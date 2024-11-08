@@ -9,6 +9,8 @@ $userId = 1; // Replace with the actual logged-in user ID
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
     $houseNumber = trim($_POST["houseNumber"]);
     $pricePerMonth = floatval($_POST["pricePerMonth"]);
+    $bedrooms = intval($_POST["bedrooms"]);
+    $description = trim($_POST["description"]);
 
     // Handle file uploads
     $imagePaths = [];
@@ -33,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addProperty"])) {
     // Insert property into the database
     if (count($imagePaths) > 0) {
         // Save the property with the image paths
-        $stmt = $conn->prepare("INSERT INTO Properties (house_number, price_per_month, owner_id) VALUES (?, ?, ?)");
-        $stmt->bind_param("dii", $houseNumber, $pricePerMonth, $userId);
+        $stmt = $conn->prepare("INSERT INTO Properties (house_number, price_per_month, bedrooms, description, owner_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sdssi", $houseNumber, $pricePerMonth, $bedrooms, $description, $userId);
 
         if ($stmt->execute()) {
             $propertyId = $stmt->insert_id;
@@ -151,8 +153,14 @@ $messagesResult = $messagesStmt->get_result();
         <label for="houseNumber">House Number:</label>
         <input type="text" id="houseNumber" name="houseNumber" required>
 
-        <label for="pricePerMonth">Price per Month:</label>
+        <label for="pricePerMonth">Price per Month (KSH):</label>
         <input type="number" id="pricePerMonth" name="pricePerMonth" step="0.01" required>
+
+        <label for="bedrooms">Number of Bedrooms:</label>
+        <input type="number" id="bedrooms" name="bedrooms" required>
+
+        <label for="description">Short Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
 
         <label for="propertyImages">Property Images:</label>
         <input type="file" id="propertyImages" name="propertyImages[]" accept="image/*" multiple required>
