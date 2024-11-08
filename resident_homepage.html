@@ -16,20 +16,17 @@
             <a href="#payments" style="--1">PAYMENTS</a>
             <a href="#maintenance" style="--1">MAINTENANCE</a>
             <a href="#guests" style="--1">GUESTS</a>
-            <form action="/search" method="get">
-                <input type="text" placeholder="Search" name="query">
-                <input type="submit" value="Search">
-            </form>
+            <a href="index.html" style="--1" onclick="logout()">LOGOUT</a> <!-- Logout redirect -->
         </nav>
     </header>
 
     <main>
         <!-- Sidebar -->
         <aside class="sidebar">
-            <section id="electricity-token">
-                <h2>Electricity Token</h2>
-                <p>View your token purchase history here.</p>
-                <button onclick="openModal('electricityTokenModal')">View History</button>
+            <section id="edit-profile">
+                <h2>Your Profile</h2>
+                <p>View and edit your profile details here.</p>
+                <button onclick="openModal('editProfileModal')">View Here</button>
             </section>
 
             <section id="rental-payments">
@@ -62,41 +59,17 @@
     </main>
 
     <!-- Modals -->
-    <div id="electricityTokenModal" class="modal">
+    <div id="editProfileModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('electricityTokenModal')">&times;</span>
-            <h2>Electricity Token Logs</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date Purchased</th>
-                        <th>Token Amount (kWh)</th>
-                        <th>Token ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2024-10-01</td>
-                        <td>50</td>
-                        <td>1234567890</td>
-                    </tr>
-                    <tr>
-                        <td>2024-09-15</td>
-                        <td>30</td>
-                        <td>0987654321</td>
-                    </tr>
-                    <tr>
-                        <td>2024-09-01</td>
-                        <td>75</td>
-                        <td>5678901234</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button onclick="closeModal('electricityTokenModal')">Close</button>
+            <span class="close" onclick="closeModal('editProfileModal')">&times;</span>
+            <h2>Profile Information</h2> <!-- Changed heading to Profile Information -->
+            <img src="path/to/resident_photo.jpg" alt="Resident Photo" width="100" height="100"> <!-- Resident's photo -->
+            <p>Name: <span id="residentNameProfile">Resident1</span></p> <!-- Resident's name -->
+            <p>House Number: <span id="houseNumber">1234</span></p> <!-- House number -->
+
+            <button onclick="closeModal('editProfileModal')">Close</button>
         </div>
     </div>
-
-   
 
     <!-- Chart Script for Dynamic Update -->
     <script>
@@ -134,12 +107,16 @@
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
+        function logout() {
+            window.location.href = "index.html"; // Redirects to index.html on logout
+        }
     </script>
 
 <div id="submitRequestModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
-        <h2>Raise A Ticket</h2>
+        <h2>Raise A Ticket</h2> 
         <p>Please fill out the details below to raise a maintenance ticket.</p>
 
         <!-- Category Section -->
@@ -155,7 +132,7 @@
         <!-- Upload Photo Section -->
         <label for="photoUpload">Upload Photo of the Area:</label>
         <input type="file" id="photoUpload" name="photoUpload" accept="image/*">
-
+        
         <!-- Buttons -->
         <div style="margin-top: 20px; ">
             <button onclick="sendRequest()">Send</button>
