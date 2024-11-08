@@ -1,11 +1,5 @@
 <?php
-// Database connection
-$host = 'localhost';
-$db = 'rosewood_park';
-$user = 'root';
-$pass = ''; // Update this
-$conn = new mysqli($host, $user, $pass, $db);
-
+include 'db_connect.php';  
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

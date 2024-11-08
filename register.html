@@ -7,45 +7,13 @@
     <title>Register - Real Estate Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style1.css">
-
-    <script>
-        // To show the document upload field if Property Owner is selected
-        function toggleDocumentUpload() {
-            const role = document.getElementById("role").value;
-            const documentUpload = document.getElementById("documentUploadField");
-            documentUpload.style.display = (role === "PropertyOwner") ? "block" : "none";
-        }
-    </script>
-
-    <script>
-        function validateForm() {
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
-    
-            // Regular expression for password validation
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    
-            if (!passwordRegex.test(password)) {
-                alert("Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.");
-                return false;
-            }
-    
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return false;
-            }
-    
-            return true;
-        }
-    </script>
-    
 </head>
-<body onload="toggleDocumentUpload()">
+<body>
     <div class="logo">
         <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
     </div>
     <div>
-        <form id="registrationForm" method="POST" action="register.php" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form id="registrationForm" method="POST" action="register.php">
             <!-- Personal Information -->
             <fieldset>
                 <legend>Personal Information</legend>
@@ -63,28 +31,19 @@
                 <input type="password" id="password" name="password" required><br><br>
 
                 <label for="confirmPassword">Confirm Password:</label><br>
-                <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"><br><br>
+                <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
                 
                 <label for="phone">Phone Number:</label><br>
                 <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required><br><br>
                 
                 <!-- User Role Dropdown -->
                 <label for="role">Register as:</label><br>
-                <select id="role" name="role" onchange="toggleDocumentUpload()" required>
+                <select id="role" name="role" required>
                     <option value="">Select Role</option>
                     <option value="Resident">Resident</option>
                     <option value="PropertyOwner">Property Owner</option>
                     <option value="Helpline">Helpline</option>
                 </select><br><br>
-                <small>Password must be 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character.</small>
-
-
-                    <!-- Document upload for Property Owner only -->
-                <div id="documentUploadField" style="display:none;">
-                    <label for="ownershipDocument">Upload Proof of Ownership:</label>
-                    <input type="file" id="ownershipDocument" name="ownershipDocument" accept=".pdf,.jpg,.jpeg,.png" required>
-                </div>
-
             </fieldset>
         
             <!-- Submit Button -->
