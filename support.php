@@ -29,17 +29,12 @@
     <main>
         <!-- Maintenance Request Section -->
         <section id="maintenance-request" class="card" style="background-image: url('SupportImages/repair-requests.jpeg');">
-            <h2>Repair Requests</h2>
+            <h2>View Tickets</h2>
             <p>View and manage all maintenance requests submitted by residents to ensure quick and effective service.</p>
             <button onclick="openModal('viewRequestsModal')">View Requests</button>
         </section>
 
-        <!-- Resident Issues Section -->
-        <section id="resident-issues" class="card" style="background-image: url('SupportImages/resident-issues.jpeg');">
-            <h2>Resident Issues</h2>
-            <p>Check issues reported by residents to address their concerns and enhance their living experience.</p>
-            <button onclick="openModal('checkIssuesModal')">Check Issues</button>
-        </section>
+        
 
         <!-- Property Maintenance Section -->
         <section id="property-maintenance" class="card" style="background-image: url('SupportImages/maintenance.jpeg');">
