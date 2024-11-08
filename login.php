@@ -58,3 +58,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn = null;
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Real Estate Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <div class="logo">
+        <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
+    </div>
+    <form action="login.php" method="POST"> 
+        <!-- Email Input -->
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <!-- Password Input -->
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Login</button>
+
+        <!-- Optional Links for Registration/Password Reset -->
+        <p>
+            Don't have an account? <a href="register.html">Register here</a><br>
+            Forgot your password? <a href="#">Reset here</a>
+        </p>
+    </form>
+</body>
+</html>
+
