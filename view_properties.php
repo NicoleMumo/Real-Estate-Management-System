@@ -18,7 +18,7 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Properties</title>
-    <link rel="stylesheet" href="bookings.css"> <!-- Add your CSS file here -->
+    <link rel="stylesheet" href="propertydetails.css"> <!-- Add your CSS file here -->
 </head>
 <body>
     <h1>Properties Available for Rent</h1>

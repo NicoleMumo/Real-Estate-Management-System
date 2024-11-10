@@ -4,10 +4,14 @@ include('db_connect.php');
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["property_id"])) {
     $propertyId = $_POST['property_id'];
-    $tenantId = 1; // Replace with actual tenant ID
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $email = $_POST['email'];
+    $phoneNumber = $_POST['phone_number'];
 
-    $stmt = $conn->prepare("INSERT INTO Bookings (tenant_id, property_id) VALUES (?, ?)");
-    $stmt->bind_param("ii", $tenantId, $propertyId);
+    // Insert booking details into Property_Bookings table
+    $stmt = $conn->prepare("INSERT INTO Property_Bookings (property_id, first_name, last_name, email, phone_number) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss", $propertyId, $firstName, $lastName, $email, $phoneNumber);
 
     if ($stmt->execute()) {
         echo "<script>alert('Booking successful!'); window.location.href='view_properties.php';</script>";
