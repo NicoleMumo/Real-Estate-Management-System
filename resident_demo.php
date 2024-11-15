@@ -3,7 +3,7 @@
 $host = 'localhost';
 $db = 'software';
 $user = 'root';
-$pass = ''; // Update this
+$pass = ''; // Update password
 $conn = new mysqli($host, $user, $pass, $db);
 
 // Check connection
@@ -11,27 +11,30 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handling form submission for maintenance request
+// Ensure the directory for images exists
+$imageDir = "resident_problem_images";
+if (!is_dir($imageDir)) {
+    mkdir($imageDir, 0777, true);
+}
+
+// Handle form submission for maintenance request
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_maintenance'])) {
     $property_number = $conn->real_escape_string($_POST['propertyNumber']);
     $description = $conn->real_escape_string($_POST['requestDescription']);
     $priority = $conn->real_escape_string($_POST['requestPriority']);
-    $resident_id = 1; // Example resident ID (update this as per your logic)
-
-    $sql = "INSERT INTO maintenance_requests (resident_id, property_number, description, priority) 
-            VALUES ('$resident_id', '$property_number', '$description', '$priority')";
-    $conn->query($sql);
-}
-
-// Handling form submission for issue reporting
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_issue'])) {
-    $description = $conn->real_escape_string($_POST['issueDescription']);
-    $issue_type = $conn->real_escape_string($_POST['issueType']);
     $resident_id = 1; // Example resident ID
 
-    $sql = "INSERT INTO resident_issues (resident_id, description, issue_type) 
-            VALUES ('$resident_id', '$description', '$issue_type')";
-    $conn->query($sql);
+    $imagePath = null; // Default image path is null
+    if (isset($_FILES['problemImage']) && $_FILES['problemImage']['error'] == UPLOAD_ERR_OK) {
+        $fileName = basename($_FILES['problemImage']['name']);
+        $imagePath = $imageDir . '/' . uniqid() . "_" . $fileName; // Generate unique file name
+        move_uploaded_file($_FILES['problemImage']['tmp_name'], $imagePath);
+    }
+
+    $stmt = $conn->prepare("INSERT INTO maintenance_requests (resident_id, property_number, description, priority, image_path) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss", $resident_id, $property_number, $description, $priority, $imagePath);
+    $stmt->execute();
+    $stmt->close();
 }
 ?>
 
@@ -44,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_issue'])) {
     <link rel="stylesheet" href="resident_demo.css">
 </head>
 <body>
-
 <div class="container">
     <header>
         <h1>Resident Portal</h1>
@@ -53,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_issue'])) {
     <main>
         <section>
             <h2>Submit Maintenance Request</h2>
-            <form method="POST" action="resident_demo.php">
+            <form method="POST" action="resident_demo.php" enctype="multipart/form-data">
                 <label for="propertyNumber">Property Number:</label>
                 <input type="text" id="propertyNumber" name="propertyNumber" required>
 
@@ -67,29 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_issue'])) {
                     <option value="high">High</option>
                 </select>
 
+                <label for="problemImage">Upload Image:</label>
+                <input type="file" id="problemImage" name="problemImage" accept="image/*">
+
                 <button type="submit" name="submit_maintenance">Submit Request</button>
-            </form>
-        </section>
-
-        <section>
-            <h2>Report an Issue</h2>
-            <form method="POST" action="resident_demo.php">
-                <label for="issueDescription">Description:</label>
-                <textarea id="issueDescription" name="issueDescription" required></textarea>
-
-                <label for="issueType">Issue Type:</label>
-                <select id="issueType" name="issueType" required>
-                    <option value="noise">Noise</option>
-                    <option value="safety">Safety</option>
-                    <option value="other">Other</option>
-                </select>
-
-                <button type="submit" name="submit_issue">Report Issue</button>
             </form>
         </section>
     </main>
 </div>
-
-<script src="resident_demo.js"></script>
 </body>
 </html>

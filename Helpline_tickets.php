@@ -6,7 +6,6 @@
     <title>Helpline Tickets - Rosewood Parks</title>
     <link rel="stylesheet" href="support-style.css">
     <script>
-        // Ensure only one checkbox is selected at a time for each ticket
         function toggleCheckboxes(rowId, selectedId) {
             const checkboxes = document.querySelectorAll(`.status-checkbox-${rowId}`);
             checkboxes.forEach(checkbox => {
@@ -33,6 +32,7 @@
                     <th>Tenant ID</th>
                     <th>Property ID</th>
                     <th>Details</th>
+                    <th>Image</th>
                     <th>Status</th>
                     <th>Date</th>
                 </tr>
@@ -62,11 +62,13 @@
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $rowId = $row['id'];
+                        $imageTag = $row['image_path'] ? "<img src='{$row['image_path']}' alt='Problem Image' width='20' height='20'>" : 'No Image';
                         echo "<tr>
                                 <td>{$rowId}</td>
                                 <td>{$row['resident_id']}</td>
                                 <td>{$row['property_number']}</td>
                                 <td>" . htmlspecialchars($row['description']) . "</td>
+                                <td>{$imageTag}</td>
                                 <td>
                                     <form method='POST' action=''>
                                         <input type='hidden' name='ticket_id' value='{$rowId}'>
@@ -86,7 +88,7 @@
                               </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='6'>No tickets found.</td></tr>";
+                    echo "<tr><td colspan='7'>No tickets found.</td></tr>";
                 }
 
                 $conn->close();
