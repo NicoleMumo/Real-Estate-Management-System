@@ -97,9 +97,6 @@
         </table>
     </main>
 
-    <footer>
-        <p>&copy; 2022 Rosewood Parks. All rights reserved.</p>
-    </footer>
 </div>
 
 </body>
