@@ -17,7 +17,23 @@ if (!is_dir($imageDir)) {
     mkdir($imageDir, 0777, true);
 }
 
-// Handle form submission
+// Fetch announcements for the front-end
+if (isset($_GET['fetch_announcements'])) {
+    $announcements = [];
+    $sql = "SELECT announce_title, announce_content, announce_date_created FROM helpline_announce ORDER BY announce_date_created DESC";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $announcements[] = $row;
+        }
+    }
+
+    echo json_encode($announcements);
+    exit;
+}
+
+// Handle form submission for maintenance request
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_maintenance'])) {
     $propertyNumber = $conn->real_escape_string($_POST['propertyNumber']);
     $description = $conn->real_escape_string($_POST['requestDescription']);
