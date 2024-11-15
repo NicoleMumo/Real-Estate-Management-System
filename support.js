@@ -1,10 +1,25 @@
-// Open the specified modal
+// Open a modal
 function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'block';
-    
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'block';
+    }
 }
 
-// Close the specified modal
+// Close a modal
 function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
+
+// Close modal if clicked outside of content
+window.onclick = function (event) {
+    const modals = document.getElementsByClassName('modal');
+    for (let modal of modals) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+};
