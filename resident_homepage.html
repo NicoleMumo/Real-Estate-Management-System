@@ -36,11 +36,33 @@
             </section>
             
 
-            <section id="maintenance-requests">
-                <h2>Maintenance Requests</h2>
-                <p>Submit maintenance requests and track their status.</p>
-                <button onclick="openModal('submitRequestModal')">Submit Request</button>
-            </section>
+            <div id="submitRequestModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal('submitRequestModal')">&times;</span>
+                    <h2>Raise A Ticket</h2>
+                    <p>Please fill out the details below to raise a maintenance ticket.</p>
+                    <form method="POST" action="resident_homepage.php" enctype="multipart/form-data">
+                        <label for="propertyNumber">Property Number:</label>
+                        <input type="text" id="propertyNumber" name="propertyNumber" required>
+            
+                        <label for="requestDescription">Description:</label>
+                        <textarea id="requestDescription" name="requestDescription" required></textarea>
+            
+                        <label for="requestPriority">Priority:</label>
+                        <select id="requestPriority" name="requestPriority" required>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+            
+                        <label for="problemImage">Upload Image:</label>
+                        <input type="file" id="problemImage" name="problemImage" accept="image/*">
+            
+                        <button type="submit" name="submit_maintenance">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+            
 
             <section id="notifications">
                 <h2>Notifications</h2>
