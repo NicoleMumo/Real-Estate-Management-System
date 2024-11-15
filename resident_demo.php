@@ -1,7 +1,7 @@
 <?php
 // Database connection
 $host = 'localhost';
-$db = 'rosewood_park';
+$db = 'software';
 $user = 'root';
 $pass = ''; // Update this
 $conn = new mysqli($host, $user, $pass, $db);
@@ -13,11 +13,13 @@ if ($conn->connect_error) {
 
 // Handling form submission for maintenance request
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_maintenance'])) {
+    $property_number = $conn->real_escape_string($_POST['propertyNumber']);
     $description = $conn->real_escape_string($_POST['requestDescription']);
     $priority = $conn->real_escape_string($_POST['requestPriority']);
-    $resident_id = 1; // Example resident ID
+    $resident_id = 1; // Example resident ID (update this as per your logic)
 
-    $sql = "INSERT INTO maintenance_requests (resident_id, description, priority) VALUES ('$resident_id', '$description', '$priority')";
+    $sql = "INSERT INTO maintenance_requests (resident_id, property_number, description, priority) 
+            VALUES ('$resident_id', '$property_number', '$description', '$priority')";
     $conn->query($sql);
 }
 
@@ -27,7 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_issue'])) {
     $issue_type = $conn->real_escape_string($_POST['issueType']);
     $resident_id = 1; // Example resident ID
 
-    $sql = "INSERT INTO resident_issues (resident_id, description, issue_type) VALUES ('$resident_id', '$description', '$issue_type')";
+    $sql = "INSERT INTO resident_issues (resident_id, description, issue_type) 
+            VALUES ('$resident_id', '$description', '$issue_type')";
     $conn->query($sql);
 }
 ?>
@@ -51,6 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_issue'])) {
         <section>
             <h2>Submit Maintenance Request</h2>
             <form method="POST" action="resident_demo.php">
+                <label for="propertyNumber">Property Number:</label>
+                <input type="text" id="propertyNumber" name="propertyNumber" required>
+
                 <label for="requestDescription">Description:</label>
                 <textarea id="requestDescription" name="requestDescription" required></textarea>
 

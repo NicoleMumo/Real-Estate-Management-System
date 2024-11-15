@@ -65,7 +65,7 @@
                         echo "<tr>
                                 <td>{$rowId}</td>
                                 <td>{$row['resident_id']}</td>
-                                <td>{$row['description']}</td>
+                                <td>{$row['property_number']}</td>
                                 <td>" . htmlspecialchars($row['description']) . "</td>
                                 <td>
                                     <form method='POST' action=''>
