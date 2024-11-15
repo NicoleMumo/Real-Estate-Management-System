@@ -18,7 +18,7 @@
         <nav>
             <ul>
                 <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#tickets">Tickets</a></li>
+                <li><a href="Helpline_tickets.php">Tickets</a></li>
                 <li><a href="#announcements">Announcements</a></li>
                 <li><a href="#communication">Communication</a></li>
             </ul>
