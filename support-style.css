@@ -158,42 +158,65 @@ footer p {
     color: #004d40;
 }
 
-/* Modal Styles */
+/* Modal Styling */
 .modal {
     display: none; /* Hidden by default */
     position: fixed;
-    z-index: 1000;
+    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
 }
 
-/* Modal Content */
 .modal-content {
-    background-color: #fff;
+    background-color: white;
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 60%; /* Adjust as needed */
+    width: 60%;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Close Button */
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Modal Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
 }

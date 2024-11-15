@@ -9,6 +9,15 @@
 </head>
 <body>
 
+<?php
+// Include the database connection
+include 'db_connect.php';
+
+// Fetch maintenance requests from the database
+$sql = "SELECT id, description, status, property_number FROM maintenance_requests";
+$result = $conn->query($sql); // Execute the query
+?>
+
 <div class="container">
     <!-- Header -->
     <header>
@@ -18,7 +27,6 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#dashboard">Dashboard</a></li>
                 <li><a href="Helpline_tickets.php">Tickets</a></li>
                 <li><a href="announcements.php">Announcements</a></li>
                 <li><a href="#communication">Communication</a></li>
@@ -60,16 +68,35 @@
 <div id="viewRequestsModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('viewRequestsModal')">&times;</span>
-        <h2>View Requests</h2>
-        <p>Details about maintenance requests will appear here.</p>
-    </div>
-</div>
-
-<div id="viewTasksModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('viewTasksModal')">&times;</span>
-        <h2>View Tasks</h2>
-        <p>Details about property maintenance tasks will appear here.</p>
+        <h2>View Maintenance Requests</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>House Number</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result && $result->num_rows > 0) {
+                    // Display data from the database
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['id']}</td>
+                                <td>{$row['description']}</td>
+                                <td>{$row['property_number']}</td>
+                                <td>{$row['status']}</td>
+                              </tr>";
+                    }
+                } else {
+                    // No data found
+                    echo "<tr><td colspan='4'>No requests found.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -80,6 +107,11 @@
         <p>Messages from property owners will appear here.</p>
     </div>
 </div>
+
+<?php
+// Close the database connection
+$conn->close();
+?>
 
 </body>
 </html>
