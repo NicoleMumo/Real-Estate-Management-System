@@ -5,13 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Real Estate Management</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style1.css">
 </head>
 <body>
     <div class="logo">
         <img src="landingpageimages/image-removebg-preview.png" alt="logo" width="160" height="130">
     </div>
+
     <div>
         <form id="registrationForm" method="POST" action="register.php">
             <!-- Personal Information -->
@@ -38,18 +41,56 @@
                 
                 <!-- User Role Dropdown -->
                 <label for="role">Register as:</label><br>
-                <select id="role" name="role" required>
+                <select id="role" name="role" required onchange="updateDropdownVisibility()">
                     <option value="">Select Role</option>
                     <option value="Tenant">Resident</option>
                     <option value="PropertyOwner">Property Owner</option>
                     <option value="Helpline">Helpline</option>
                 </select><br><br>
+
+                <!-- House Number Dropdown -->
+                <div id="houseNumberContainer" style="display: none;">
+                    <label for="property_id">Select property id:</label><br>
+                    <select id="property_id" name="property_id">
+                        <option value="">property id</option>
+                    </select><br><br>
+                </div>
             </fieldset>
         
             <!-- Submit Button -->
             <button type="submit">Register</button>
         </form>        
     </div>
-    <div class="right-section"></div>
+
+    <!-- Script to handle dynamic dropdown visibility and fetching house numbers -->
+    <script>
+        function updateDropdownVisibility() {
+            const role = document.getElementById('role').value;
+            const houseContainer = document.getElementById('houseNumberContainer');
+            
+            if (role === 'Tenant') {
+                houseContainer.style.display = 'block';
+                fetchHouseNumbers();
+            } else {
+                houseContainer.style.display = 'none';
+            }
+        }
+
+        function fetchHouseNumbers() {
+            fetch('fetch_house_numbers.php')
+                .then(response => response.json())
+                .then(data => {
+                    const houseDropdown = document.getElementById('property_id');
+                    houseDropdown.innerHTML = '<option value="">Select House Number</option>';
+                    data.forEach(house => {
+                        const option = document.createElement('option');
+                        option.value = house.id;
+                        option.textContent = house.house_number;
+                        houseDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching house numbers:', error));
+        }
+    </script>
 </body>
 </html>
