@@ -131,15 +131,146 @@ $messagesResult = $messagesStmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Owner Dashboard</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        header { text-align: center; padding: 20px; }
-        nav ul { list-style: none; padding: 0; }
-        nav ul li { display: inline; margin: 0 15px; }
-        .form-section { display: none; }
-        .btn { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; }
-        .btn-reject { background-color: #dc3545; }
-        .card { border: 1px solid #ddd; padding: 15px; margin: 10px; width: 250px; }
-        .card img { width: 100%; height: auto; }
+        /* General styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .logo img {
+            height: 100px;
+            width: 130px;
+            display: block;
+            margin-left: 5px ;
+
+        }
+
+        header {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        /* Navigation */
+        nav ul {
+            list-style-type: none;
+            text-align: center;
+            background-color: #333;
+            padding: 15px 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #4CAF50;
+        }
+
+        /* Form section styles */
+        .form-section {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        /* Card section styles */
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            padding: 15px;
+            margin: 10px;
+            width: 250px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .card h4 {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #4CAF50;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* JavaScript - Display selected section */
+        .active {
+            display: block !important;
+        }
     </style>
 </head>
 <body>
@@ -163,7 +294,7 @@ $messagesResult = $messagesStmt->get_result();
 </nav>
 
 <!-- Properties Section -->
-<div id="properties" class="form-section">
+<div id="properties" class="form-section active">
     <h3>Add Property</h3>
     <form method="post" action="ownerdashboard.php" enctype="multipart/form-data">
         <label for="houseNumber">House Number:</label>
@@ -188,7 +319,7 @@ $messagesResult = $messagesStmt->get_result();
 <!-- Bookings Section -->
 <div id="bookings" class="form-section">
     <h3>Your Property Bookings</h3>
-    <div style="display: flex; flex-wrap: wrap;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center;">
         <?php while ($row = $bookingsResult->fetch_assoc()) { ?>
             <div class="card">
                 <?php if ($row['image_path']) { ?>
@@ -203,16 +334,11 @@ $messagesResult = $messagesStmt->get_result();
     </div>
 </div>
 
-<!-- Tenants, Maintenance, Payments, and Messages Sections -->
-
 <script>
-    function showSection(section) {
-        // Hide all sections
+    function showSection(sectionId) {
         const sections = document.querySelectorAll('.form-section');
-        sections.forEach(s => s.style.display = 'none');
-
-        // Show selected section
-        document.getElementById(section).style.display = 'block';
+        sections.forEach(section => section.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
     }
 </script>
 </body>

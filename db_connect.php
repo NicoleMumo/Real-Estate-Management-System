@@ -9,9 +9,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // Add this line right after checking the connection
 if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
-} else {
-    echo "Database connected successfully.<br>"; // Temporary check
-}
+} 
 
 
 // Check connection
