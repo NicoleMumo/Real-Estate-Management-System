@@ -113,10 +113,10 @@ if (isset($_POST['submit'])) {
         echo "<script>alert('Payment request saved successfully. Proceeding with STK Push.');</script>";
 
         // Proceed with Daraja API Integration
-        $consumerKey = '    ';
-        $consumerSecret = '   ';
+        $consumerKey = 'sXhpmN7WH0i5MLgrcZcgxt48LFPMf1hgBWCufkCzjbfMIbWz';
+        $consumerSecret = 'jGfpNRZcQZgWrnCJT6Ag0AxwDY4sPfv3Q7f5PLZDftwGqTuBi9j2bETHNDVM4hRW';
         $shortCode = "174379";
-        $passkey = "    ";
+        $passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
         $timestamp = date('YmdHis');
         $password = base64_encode($shortCode . $passkey . $timestamp);
 
