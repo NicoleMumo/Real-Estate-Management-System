@@ -19,18 +19,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userType = null;
 
         $queries = [
-            'tenants' => "SELECT email FROM tenants WHERE email = :email",
-            'propertyowners' => "SELECT email FROM propertyowners WHERE email = :email",
-            'helpline' => "SELECT email FROM helpline WHERE email = :email"
+            'tenants' => "SELECT email FROM tenants WHERE email = ?",
+            'propertyowners' => "SELECT email FROM propertyowners WHERE email = ?",
+            'helpline' => "SELECT email FROM helpline WHERE email = ?"
         ];
 
         foreach ($queries as $type => $sql) {
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
+            if (!$stmt) {
+                die("SQL error: " . $conn->error); // MySQLi error reporting
+            }
 
-            if ($stmt->rowCount() > 0) {
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $user = $result->fetch_assoc();
                 $userType = $type;
                 break;
             }
@@ -43,23 +48,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $expires = date("U") + 1800; // 30 minutes
 
             // Remove any existing tokens for this email
-            $deleteStmt = $conn->prepare("DELETE FROM password_resets WHERE email = :email");
-            $deleteStmt->bindParam(':email', $email);
+            $deleteStmt = $conn->prepare("DELETE FROM password_resets WHERE email = ?");
+            $deleteStmt->bind_param('s', $email);
             $deleteStmt->execute();
 
             // Insert the new token into the password_resets table
             $insertStmt = $conn->prepare("
                 INSERT INTO password_resets (email, token, expires, user_type) 
-                VALUES (:email, :token, :expires, :user_type)
+                VALUES (?, ?, ?, ?)
             ");
-            $insertStmt->bindParam(':email', $email);
-            $insertStmt->bindParam(':token', $hashedToken);
-            $insertStmt->bindParam(':expires', $expires);
-            $insertStmt->bindParam(':user_type', $userType);
+            $insertStmt->bind_param('ssis', $email, $hashedToken, $expires, $userType);
             $insertStmt->execute();
 
             // Send the reset email
-            $resetLink = "http://localhost/real-estate-management-system/reset_password.php?token=$token&email=" . urlencode($email);
+            $resetLink = "http://localhost/real-estate-management-system/reset_password.php?token=$token&email=" . urlencode($email) . "&user_type=$userType";
 
             $mail = new PHPMailer(true);
             try {
@@ -71,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
-                $mail->setFrom('noreply@example.com', 'Your Website');
+                $mail->setFrom('noreply@example.com', 'Rosewood Park Residencies');
                 $mail->addAddress($email);
                 $mail->Subject = 'Password Reset Request';
                 $mail->isHTML(true);
@@ -80,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p>You requested a password reset. Click the link below to reset your password:</p>
                     <p><a href='$resetLink'>$resetLink</a></p>
                     <p>If you did not request this, you can safely ignore this email.</p>
-                    <p>Thanks,<br>Your Website Team</p>
+                    <p>Thanks,<br>Rosewood Park Team</p>
                 ";
 
                 $mail->send();
@@ -91,10 +93,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "If your email is registered, you will receive a password reset link shortly.";
         }
-    } catch (PDOException $e) {
+    } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-$conn = null;
+$conn->close();
 ?>

@@ -1,42 +1,45 @@
 <?php
-include 'db_connect.php';
+include 'db_connect.php'; // Include your MySQLi connection file
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
     // Check if the token is valid and not expired
-    $stmt = $conn->prepare("SELECT * FROM password_resets WHERE token = :token AND expires >= :now");
-    $stmt->bindParam(':token', $token);
-    $stmt->bindParam(':now', date("U"));
+    $stmt = $conn->prepare("SELECT * FROM password_resets WHERE token = ? AND expires >= ?");
+    $current_time = date("U");
+    $stmt->bind_param('si', $token, $current_time);
     $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($stmt->rowCount() > 0) {
+    if ($result->num_rows > 0) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $password = $_POST['password'];
             $confirmPassword = $_POST['confirmPassword'];
 
-            // Check if passwords match and meet complexity requirements
+            // Check if passwords match
             if ($password !== $confirmPassword) {
                 echo "Passwords do not match.";
-        
             } else {
-                // Hash the new password and update it in the users table
+                // Hash the new password
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
                 // Get email from password_resets table
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $row = $result->fetch_assoc();
                 $email = $row['email'];
 
-                // Update password in users table
-                $updateStmt = $conn->prepare("UPDATE users SET password = :password WHERE email = :email");
-                $updateStmt->bindParam(':password', $hashedPassword);
-                $updateStmt->bindParam(':email', $email);
-                $updateStmt->execute();
-
-                // Delete the password reset record
-                $stmt = $conn->prepare("DELETE FROM password_resets WHERE email = :email");
-                $stmt->bindParam(':email', $email);
+                // Update password in the appropriate user table
+                $stmt = $conn->prepare("
+                    UPDATE users 
+                    SET password = ? 
+                    WHERE email = ?
+                ");
+                $stmt->bind_param('ss', $hashedPassword, $email);
                 $stmt->execute();
+
+                // Delete the token from the password_resets table
+                $deleteStmt = $conn->prepare("DELETE FROM password_resets WHERE email = ?");
+                $deleteStmt->bind_param('s', $email);
+                $deleteStmt->execute();
 
                 echo "Password has been reset successfully!";
             }
