@@ -14,7 +14,7 @@
 include 'db_connect.php';
 
 // Fetch maintenance requests from the database
-$sql = "SELECT id, description, status, property_number FROM maintenance_requests";
+$sql = "SELECT id, description, status, property_id FROM maintenance_requests";
 $result = $conn->query($sql); // Execute the query
 ?>
 
@@ -86,7 +86,7 @@ $result = $conn->query($sql); // Execute the query
                         echo "<tr>
                                 <td>{$row['id']}</td>
                                 <td>{$row['description']}</td>
-                                <td>{$row['property_number']}</td>
+                                <td>{$row['property_id']}</td>
                                 <td>{$row['status']}</td>
                               </tr>";
                     }
