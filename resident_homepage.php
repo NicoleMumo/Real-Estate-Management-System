@@ -216,7 +216,7 @@ $conn->close();
                 <h2>Maintenance Requests</h2>
                 <p>Submit maintenance requests here.</p>
                 <button class="button-link" onclick="showContent('maintenance-section')">Submit Request</button>
-            
+                <button id="viewRequestsButton">View Requests</button>
              </section>
 
             <section id="notifications">
@@ -279,7 +279,7 @@ $conn->close();
               
 
                 </form>
-                <button id="viewRequestsButton">View Requests</button>
+                
             </div>
 
             <div id="notification-settings">
