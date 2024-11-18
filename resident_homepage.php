@@ -274,7 +274,10 @@ $conn->close();
                     <label for="problemImage">Attach Image:</label>
                     <input type="file" id="problemImage" name="problemImage" accept="image/*">
             
-                    <button type="submit" name="submit_maintenance">Submit Request</button>
+                   
+                 <button type="submit" name="submit_maintenance">Submit Request</button>
+                 <button id="viewRequestsButton">View Requests</button>
+
                 </form>
             </div>
 
