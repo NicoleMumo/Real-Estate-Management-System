@@ -23,26 +23,6 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
-// Fetch maintenance requests for a resident
-if (isset($_GET['fetch_requests'])) {
-    $residentId = 1; // Replace with the logged-in resident's ID (from session)
-    $requests = [];
-    $sql = "SELECT id, property_number, description, priority, status, created_at, image_path 
-            FROM maintenance_requests 
-            WHERE resident_id = ? 
-            ORDER BY created_at DESC";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $residentId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    while ($row = $result->fetch_assoc()) {
-        $requests[] = $row;
-    }
-    echo json_encode($requests);
-    exit;
-}
-
 
 // Ensure image directory exists
 $imageDir = "resident_problem_images";
@@ -239,4 +219,3 @@ $conn->close();
     </script>
 </body>
 </html>
-
