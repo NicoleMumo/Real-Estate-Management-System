@@ -65,8 +65,8 @@
                         $imageTag = $row['image_path'] ? "<img src='{$row['image_path']}' alt='Problem Image' width='20' height='20'>" : 'No Image';
                         echo "<tr>
                                 <td>{$rowId}</td>
-                                <td>{$row['resident_id']}</td>
-                                <td>{$row['property_number']}</td>
+                                <td>{$row['tenant_id']}</td>
+                                <td>{$row['property_id']}</td>
                                 <td>" . htmlspecialchars($row['description']) . "</td>
                                 <td>{$imageTag}</td>
                                 <td>

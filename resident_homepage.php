@@ -91,6 +91,25 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Dashboard</title>
+    <style>
+        .button-container {
+            display: flex;
+            gap: 10px; /* Space between the buttons */
+        }
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .button-container button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="resident.css">
 </head>
@@ -124,7 +143,13 @@ $conn->close();
             <section id="maintenance-requests">
                 <h2>Maintenance Requests</h2>
                 <p>Submit maintenance requests and track their status.</p>
-                <button onclick="openModal('submitRequestModal')">Submit Request</button>
+               
+               
+                <div class="button-container">
+                    <button onclick="openModal('submitRequestModal')">Submit Request</button>
+                    <button id="viewRequestsButton">View Requests</button>
+
+                </div>
             </section>
 
             <section id="notifications">
