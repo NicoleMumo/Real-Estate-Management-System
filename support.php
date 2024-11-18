@@ -42,10 +42,10 @@ $result = $conn->query($sql); // Execute the query
             <button onclick="openModal('viewRequestsModal')">View Requests</button>
         </section>
 
-        <section id="property-maintenance" class="card" style="background-image: url('SupportImages/maintenance.jpeg');">
-            <h2>Property Maintenance</h2>
-            <p>Review and track property maintenance tasks, ensuring timely and efficient upkeep of the properties.</p>
-            <button onclick="openModal('viewTasksModal')">View Tasks</button>
+        <section id="announcements" class="card" style="background-image: url('SupportImages/maintenance.jpeg');">
+            <h2>Announcements</h2>
+            <p>View any announcements you have made</p>
+            <button onclick="openModal('viewAnnounceModal')">View Announcements</button>
         </section>
 
         <section id="owner-communication" class="card" style="background-image: url('SupportImages/communication.jpeg');">
@@ -56,14 +56,16 @@ $result = $conn->query($sql); // Execute the query
     </main>
 
     <!-- Footer -->
-    <footer>
-        <p>Address: 123 Main St, City</p>
-        <p>Phone: 123-456-7890</p>
-        <p>Email: info@example.com</p>
-        <p>&copy; 2022 Real Estate Management. All rights reserved.</p>
-    </footer>
+   
 </div>
-
+<footer>
+        <p>Contact Information: +254 712-345-678 | rosewoodpark@gmail.com | Kilimani, Nairobi</p>
+        <div class="social-media">
+            <a href="#"><img src="landingpageimages/instagrampic.png" alt="instagram" height="20px" width="20px"></a> |
+            <a href="#"><img src="landingpageimages/social-media.png" alt="tiktok" height="20px" width="20px"></a> |
+            <a href="#"><img src="landingpageimages/logo.png" alt="whatsapp" height="20px" width="20px"></a>
+        </div>
+    </footer>
 <!-- Modals -->
 <div id="viewRequestsModal" class="modal">
     <div class="modal-content">

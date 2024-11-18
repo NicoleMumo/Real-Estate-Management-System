@@ -23,6 +23,17 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
+// Fetch announcements
+$announcements = [];
+$query = "SELECT announce_title, announce_content, announce_date_created 
+          FROM helpline_announce 
+          ORDER BY announce_date_created DESC";
+$result = $conn->query($query);
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $announcements[] = $row;
+    }
+}
 
 // Ensure image directory exists
 $imageDir = "resident_problem_images";
@@ -199,6 +210,52 @@ $conn->close();
     </header>
 
     <main>
+        <!-- Announcement Pop-Up -->
+<div id="announcementPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closePopup()">&times;</span>
+        <h3 id="announcementTitle"></h3>
+        <p id="announcementContent"></p>
+    </div>
+</div>
+
+<style>
+.popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.popup-content {
+    position: relative;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#announcementPopup h3 {
+    margin-top: 0;
+}
+
+.popup p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+</style>
+
         <aside class="sidebar">
             <section id="edit-profile">
                 <h2>Your Profile</h2>
@@ -515,5 +572,38 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial state: show the profile section
         showContent('profile-section');
     </script>
+    <script>
+    const announcements = <?php echo json_encode($announcements); ?>;
+    let currentAnnouncementIndex = 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (announcements.length > 0) {
+            showNextAnnouncement();
+        }
+    });
+
+    function showNextAnnouncement() {
+        if (currentAnnouncementIndex < announcements.length) {
+            const announcement = announcements[currentAnnouncementIndex];
+            const popup = document.getElementById('announcementPopup');
+            document.getElementById('announcementTitle').innerText = announcement.announce_title;
+            document.getElementById('announcementContent').innerText = announcement.announce_content;
+            popup.style.display = 'block';
+
+            // Automatically close after 5 seconds and show the next announcement
+            setTimeout(() => {
+                closePopup();
+                currentAnnouncementIndex++;
+                showNextAnnouncement();
+            }, 5000);
+        }
+    }
+
+    function closePopup() {
+        const popup = document.getElementById('announcementPopup');
+        popup.style.display = 'none';
+    }
+</script>
+
 </body>
 </html>
