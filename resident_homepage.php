@@ -276,9 +276,10 @@ $conn->close();
             
                    
                  <button type="submit" name="submit_maintenance">Submit Request</button>
-                 <button id="viewRequestsButton">View Requests</button>
+              
 
                 </form>
+                <button id="viewRequestsButton">View Requests</button>
             </div>
 
             <div id="notification-settings">
