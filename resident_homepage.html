@@ -37,7 +37,11 @@
             <section id="maintenance-requests">
                 <h2>Maintenance Requests</h2>
                 <p>Submit maintenance requests and track their status.</p>
-                <button onclick="openModal('submitRequestModal')">Submit Request</button>
+                <div class="button-container">
+                    <button onclick="openModal('submitRequestModal')">Submit Request</button>
+                    <button id="viewRequestsButton">View Requests</button>
+
+                </div>
             </section>
 
             <section id="notifications">
@@ -137,7 +141,65 @@
             <button onclick="closeModal('announcementModal')">Cancel</button>
         </div>
     </div>
-
+    <div id="viewRequestsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('viewRequestsModal')">&times;</span>
+            <h2>Your Maintenance Requests</h2>
+            <table id="requestsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Property Number</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Requests will be populated here -->
+                </tbody>
+            </table>
+            <button onclick="closeModal('viewRequestsModal')">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        function fetchRequests() {
+            fetch('resident_homepage.php?fetch_requests=1')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#requestsTable tbody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+    
+                    data.forEach(request => {
+                        const row = document.createElement('tr');
+    
+                        row.innerHTML = `
+                            <td>${request.id}</td>
+                            <td>${request.property_number}</td>
+                            <td>${request.description}</td>
+                            <td>${request.priority}</td>
+                            <td>${request.status}</td>
+                            <td>${new Date(request.created_at).toLocaleString()}</td>
+                            <td>
+                                ${request.image_path 
+                                    ? `<a href="${request.image_path}" target="_blank">View Image</a>` 
+                                    : 'No Image'}
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+    
+                    openModal('viewRequestsModal');
+                })
+                .catch(error => console.error('Error fetching requests:', error));
+        }
+    
+        document.querySelector('#viewRequestsButton').addEventListener('click', fetchRequests);
+    </script>
+    
     <script>
         const rentalData = [1200, 1500, 1100, 1400, 1350];
         const rentalLabels = ['January', 'February', 'March', 'April', 'May'];
@@ -223,5 +285,27 @@
             <a href="#"><img src="landingpageimages/logo.png" alt="whatsapp" height="20px" width="20px"></a>
         </div>
     </footer>
+
+    <style>
+        .button-container {
+            display: flex;
+            gap: 10px; /* Space between the buttons */
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
 </body>
 </html>
