@@ -342,5 +342,6 @@ $messagesResult = $messagesStmt->get_result();
         document.getElementById(sectionId).classList.add('active');
     }
 </script>
+
 </body>
 </html>
