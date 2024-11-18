@@ -217,7 +217,58 @@ $conn->close();
                 <p>Submit maintenance requests here.</p>
                 <button class="button-link" onclick="showContent('maintenance-section')">Submit Request</button>
                 <button id="viewRequestsButton">View Requests</button>
-             </section>
+            <!-- Modal -->
+<div id="requestsModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Your Maintenance Requests</h3>
+        <div id="modalBody">
+            <!-- Requests will be dynamically loaded here -->
+        </div>
+    </div>
+</div>
+
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+
+            </section>
+
 
             <section id="notifications">
                 <h2>Notifications</h2>
@@ -279,7 +330,7 @@ $conn->close();
               
 
                 </form>
-                
+               
             </div>
 
             <div id="notification-settings">
@@ -415,7 +466,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
         </script>
+<script>document.getElementById("viewRequestsButton").addEventListener("click", function() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "fetch_requests.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const response = xhr.responseText;
+            document.getElementById("modalBody").innerHTML = response;
+            document.getElementById("requestsModal").style.display = "block";
+        } else {
+            alert("Failed to fetch requests. Please try again.");
+        }
+    };
+
+    xhr.send(); // No additional data is needed as session variables will be used
+});
+
+function closeModal() {
+    document.getElementById("requestsModal").style.display = "none";
+}
+</script>
     <script>
         function showContent(sectionId) {
     const sections = document.querySelectorAll('.content > div'); // Select direct child divs of .content
