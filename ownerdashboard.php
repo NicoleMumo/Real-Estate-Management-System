@@ -89,12 +89,13 @@ $tenantsStmt->bind_param("i", $userId);
 $tenantsStmt->execute();
 $tenantsResult = $tenantsStmt->get_result();
 
-$maintenanceSql = "SELECT mr.request_id, mr.request_details, mr.request_status, mr.request_date, 
+$maintenanceSql = "SELECT mr.id, mr.description, mr.created_at, 
                    t.firstname, t.lastname, p.house_number
                    FROM maintenance_requests mr
                    JOIN tenants t ON mr.tenant_id = t.tenant_id
                    JOIN properties p ON mr.property_id = p.property_id
                    WHERE p.owner_id = ?";
+
 $maintenanceStmt = $conn->prepare($maintenanceSql);
 $maintenanceStmt->bind_param("i", $userId);
 $maintenanceStmt->execute();
