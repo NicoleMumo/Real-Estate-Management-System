@@ -39,7 +39,8 @@
                 <p>Submit maintenance requests and track their status.</p>
                 <div class="button-container">
                     <button onclick="openModal('submitRequestModal')">Submit Request</button>
-                    <button onclick="window.open('view_requests.html', '_blank')">View Requests</button>
+                    <button id="viewRequestsButton">View Requests</button>
+
                 </div>
             </section>
 
@@ -140,7 +141,65 @@
             <button onclick="closeModal('announcementModal')">Cancel</button>
         </div>
     </div>
-
+    <div id="viewRequestsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('viewRequestsModal')">&times;</span>
+            <h2>Your Maintenance Requests</h2>
+            <table id="requestsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Property Number</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Requests will be populated here -->
+                </tbody>
+            </table>
+            <button onclick="closeModal('viewRequestsModal')">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        function fetchRequests() {
+            fetch('resident_homepage.php?fetch_requests=1')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#requestsTable tbody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+    
+                    data.forEach(request => {
+                        const row = document.createElement('tr');
+    
+                        row.innerHTML = `
+                            <td>${request.id}</td>
+                            <td>${request.property_number}</td>
+                            <td>${request.description}</td>
+                            <td>${request.priority}</td>
+                            <td>${request.status}</td>
+                            <td>${new Date(request.created_at).toLocaleString()}</td>
+                            <td>
+                                ${request.image_path 
+                                    ? `<a href="${request.image_path}" target="_blank">View Image</a>` 
+                                    : 'No Image'}
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+    
+                    openModal('viewRequestsModal');
+                })
+                .catch(error => console.error('Error fetching requests:', error));
+        }
+    
+        document.querySelector('#viewRequestsButton').addEventListener('click', fetchRequests);
+    </script>
+    
     <script>
         const rentalData = [1200, 1500, 1100, 1400, 1350];
         const rentalLabels = ['January', 'February', 'March', 'April', 'May'];
